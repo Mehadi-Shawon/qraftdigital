@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useReveal } from "../hooks";
 import founderImg from "../assets/Qraft Digitals Founder.jpg";
 import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, GhostBtn, TechPill, Stars, GlassCard } from "../components/UI";
+import ProjectModal from "../components/ProjectModal";
 
 const TEAM = [
   { name:"Md. Mehadi Hasan Shawon", role:"Founder & Principal Engineer", bio:"Architecting high-scale distributed systems and driving the full technical vision of the agency.", img:founderImg, color:"#CCFF00" },
@@ -31,10 +33,11 @@ const VALUES = [
 const STACK = ["React","Next.js","TypeScript","Node.js","Python","PostgreSQL","Redis","Docker","AWS","Kubernetes","GraphQL","Tailwind CSS","Rust","Figma","Vercel"];
 
 export default function AboutPage({ navigate }) {
+  const [modalOpen, setModalOpen] = useState(false);
   useReveal();
 
   return (
-    <div>
+    <>
       {/* ═══ HERO ═══ */}
       <section style={{ position:"relative", overflow:"hidden", minHeight:"68vh", display:"flex", alignItems:"center" }}>
 
@@ -132,24 +135,34 @@ export default function AboutPage({ navigate }) {
             <h2 className="h2">The people behind the code.</h2>
           </Reveal>
           <StaggerContainer className="team-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16 }}>
-            {TEAM.map(({ name, role, bio, img, color }) => (
-              <StaggerItem key={name}>
+            {TEAM.map(({ name, role, bio, img, color }, idx) => {
+              const isFounder = idx === 0;
+              return (
+              <StaggerItem key={name} style={{ height:"100%" }}>
                 <motion.div
                   className="glass-card"
-                  style={{ padding:0, overflow:"hidden" }}
-                  whileHover={{ y:-6, boxShadow:`0 24px 48px rgba(0,0,0,0.4)` }}
+                  style={{ padding:0, overflow:"hidden", height:"100%", display:"flex", flexDirection:"column", cursor: isFounder ? "pointer" : "default" }}
+                  whileHover={{ y:-6, boxShadow: isFounder ? `0 24px 48px rgba(204,255,0,0.15)` : `0 24px 48px rgba(0,0,0,0.4)` }}
+                  onClick={ isFounder ? () => setModalOpen(true) : undefined }
                 >
-                  <div className="img-hover" style={{ overflow:"hidden", aspectRatio:"1" }}>
+                  <div className="img-hover" style={{ overflow:"hidden", aspectRatio:"1", flexShrink:0 }}>
                     <img src={img} alt={name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
                   </div>
-                  <div style={{ padding:16 }}>
+                  <div style={{ padding:16, display:"flex", flexDirection:"column", flex:1 }}>
                     <h4 className="h3" style={{ fontSize:14, marginBottom:3 }}>{name}</h4>
                     <p style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:9, fontWeight:700, textTransform:"uppercase", letterSpacing:".1em", color, marginBottom:8 }}>{role}</p>
-                    <p className="body-sm" style={{ fontSize:12, lineHeight:1.6 }}>{bio}</p>
+                    <p className="body-sm" style={{ fontSize:12, lineHeight:1.6, flex:1 }}>{bio}</p>
+                    {isFounder && (
+                      <div style={{ display:"flex", alignItems:"center", gap:6, marginTop:12, paddingTop:12, borderTop:"1px solid rgba(204,255,0,0.15)" }}>
+                        <Icon name="rocket_launch" style={{ fontSize:13, color:"var(--lime)" }} />
+                        <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:9, fontWeight:700, textTransform:"uppercase", letterSpacing:".1em", color:"var(--lime)" }}>Start a Project</span>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               </StaggerItem>
-            ))}
+              );
+            })}
           </StaggerContainer>
         </div>
       </section>
@@ -237,6 +250,7 @@ export default function AboutPage({ navigate }) {
           </motion.div>
         </Reveal>
       </section>
-    </div>
+    <ProjectModal open={modalOpen} onClose={() => setModalOpen(false)} />
+    </>
   );
 }

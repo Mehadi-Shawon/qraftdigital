@@ -148,7 +148,7 @@ export default function HomePage({ navigate }) {
   return (
     <div>
       {/* ═══════════════════ HERO ═══════════════════ */}
-      <section ref={heroRef} style={{ position:"relative", overflow:"hidden", minHeight:"100vh", display:"flex", alignItems:"center", isolation:"isolate" }}>
+      <section ref={heroRef} style={{ position:"relative", overflow:"hidden", minHeight:"100vh", display:"flex", alignItems:"center", isolation:"isolate", paddingBottom:32 }}>
 
         {/* Deep atmospheric background */}
         <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse 130% 90% at 10% -5%, rgba(88,28,135,0.55) 0%, transparent 55%), radial-gradient(ellipse 70% 60% at 90% 105%, rgba(109,40,217,0.22) 0%, transparent 55%)", zIndex:0, pointerEvents:"none" }} />

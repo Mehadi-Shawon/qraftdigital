@@ -2,7 +2,8 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, GlassCard, LimeBtn, GhostBtn } from "../components/UI";
 
-const FORMSPREE_ID = "YOUR_FORM_ID";
+const FORMSPREE_CONTACT = "xdajqjlb";
+const FORMSPREE_BOOKING = "mgoqgqno";
 
 const SERVICES = [
   { id:"web",      icon:"web",          label:"Web Development"  },
@@ -52,7 +53,7 @@ export default function ContactPage({ navigate }) {
     e.preventDefault();
     setBookSending(true); setBookError(null);
     try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_BOOKING}`, {
         method:"POST",
         headers:{ "Content-Type":"application/json", Accept:"application/json" },
         body: JSON.stringify({ _type:"meeting_request", ...book }),
@@ -82,7 +83,7 @@ export default function ContactPage({ navigate }) {
     setSending(true); setError(null);
     try {
       const payload = { ...form, services: form.services.join(", ") };
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_CONTACT}`, {
         method:"POST",
         headers:{ "Content-Type":"application/json", Accept:"application/json" },
         body: JSON.stringify(payload),
