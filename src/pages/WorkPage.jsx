@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+﻿import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, GhostBtn, Badge } from "../components/UI";
 
@@ -25,7 +25,21 @@ const FILTERS = ["All","Restaurant","Healthcare","Local ISP","Local Business","B
 
 export default function WorkPage({ navigate }) {
   const [active, setActive] = useState("All");
+  const [filterScroll, setFilterScroll] = useState({ left:0, max:0, ratio:1 });
+  const filterRef = useRef(null);
   const filtered = active==="All" ? PROJECTS : PROJECTS.filter(p => p.filter===active);
+
+  useEffect(() => {
+    const el = filterRef.current;
+    if (!el) return;
+    setFilterScroll({ left:0, max: el.scrollWidth - el.clientWidth, ratio: el.clientWidth / el.scrollWidth });
+  }, []);
+
+  const onFilterScroll = () => {
+    const el = filterRef.current;
+    if (!el) return;
+    setFilterScroll({ left: el.scrollLeft, max: el.scrollWidth - el.clientWidth, ratio: el.clientWidth / el.scrollWidth });
+  };
 
   return (
     <div>
@@ -60,18 +74,42 @@ export default function WorkPage({ navigate }) {
       </section>
 
       {/* â•â•â• FILTERS â•â•â• */}
-      <div className="px-section filter-bar" style={{ maxWidth:1440, margin:"0 auto", padding:"20px clamp(20px,4vw,40px)", display:"flex", gap:10, borderBottom:"1px solid var(--border)", flexWrap:"nowrap", overflowX:"auto" }}>
-        {FILTERS.map(f => (
-          <motion.button
-            key={f}
-            onClick={() => setActive(f)}
-            style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:".08em", padding:"9px 22px", border:`1px solid ${active===f?"var(--lime)":"var(--border)"}`, background: active===f?"var(--lime)":"none", color: active===f?"#000":"var(--text3)" }}
-            whileHover={{ scale:1.04 }} whileTap={{ scale:.96 }}
-            transition={{ type:"spring", stiffness:400, damping:20 }}
-          >
-            {f}
-          </motion.button>
-        ))}
+      <div style={{ position:"relative", borderBottom:"1px solid var(--border)" }}>
+        <div
+          ref={filterRef}
+          className="px-section filter-bar"
+          onScroll={onFilterScroll}
+          style={{ maxWidth:1440, margin:"0 auto", padding:"20px clamp(20px,4vw,40px)", display:"flex", gap:10, flexWrap:"nowrap", overflowX:"auto" }}
+        >
+          {FILTERS.map(f => (
+            <motion.button
+              key={f}
+              onClick={() => setActive(f)}
+              style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:".08em", padding:"9px 22px", border:`1px solid ${active===f?"var(--lime)":"var(--border)"}`, background: active===f?"var(--lime)":"none", color: active===f?"#000":"var(--text3)" }}
+              whileHover={{ scale:1.04 }} whileTap={{ scale:.96 }}
+              transition={{ type:"spring", stiffness:400, damping:20 }}
+            >
+              {f}
+            </motion.button>
+          ))}
+        </div>
+
+        {/* Left fade */}
+        <div style={{ position:"absolute", top:0, left:0, bottom:0, width:48, background:"linear-gradient(to right, rgba(4,2,12,0.9), transparent)", pointerEvents:"none", opacity: filterScroll.left > 4 ? 1 : 0, transition:"opacity .2s", zIndex:2 }} />
+        {/* Right fade */}
+        <div style={{ position:"absolute", top:0, right:0, bottom:0, width:48, background:"linear-gradient(to left, rgba(4,2,12,0.9), transparent)", pointerEvents:"none", opacity: filterScroll.max - filterScroll.left > 4 ? 1 : 0, transition:"opacity .2s", zIndex:2 }} />
+
+        {/* Thumb scrollbar */}
+        <div style={{ height:8, background:"rgba(255,255,255,0.06)", position:"relative", borderRadius:4 }}>
+          <motion.div
+            style={{ position:"absolute", top:2, bottom:2, background:"var(--lime)", borderRadius:3 }}
+            animate={{
+              width: `${Math.max(filterScroll.ratio * 100, 12)}%`,
+              left:  `${filterScroll.max > 0 ? (filterScroll.left / filterScroll.max) * (100 - Math.max(filterScroll.ratio * 100, 12)) : 0}%`,
+            }}
+            transition={{ duration:.12, ease:"easeOut" }}
+          />
+        </div>
       </div>
 
       {/* â•â•â• GRID â•â•â• */}

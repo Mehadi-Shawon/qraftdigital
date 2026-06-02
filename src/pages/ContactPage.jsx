@@ -104,7 +104,7 @@ export default function ContactPage({ navigate }) {
   return (
     <div>
       {/* ═══ HERO ═══ */}
-      <section style={{ position:"relative", overflow:"hidden", height:"calc(100vh - 76px)", display:"flex", alignItems:"center" }}>
+      <section className="contact-hero" style={{ position:"relative", overflow:"hidden", minHeight:"calc(100vh - 76px)", display:"flex", alignItems:"center" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"url(https://images.unsplash.com/photo-1497366412874-3415097a27e7?w=1920&h=900&fit=crop)", backgroundSize:"cover", backgroundPosition:"center", zIndex:0 }} />
         <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg, rgba(6,4,14,0.96) 0%, rgba(30,10,70,0.85) 50%, rgba(6,4,14,0.93) 100%)", zIndex:1 }} />
         <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(204,255,0,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(204,255,0,.015) 1px,transparent 1px)", backgroundSize:"80px 80px", zIndex:2, pointerEvents:"none" }} />
@@ -175,7 +175,7 @@ export default function ContactPage({ navigate }) {
                     <motion.div key="book-form" initial={{ opacity:0 }} animate={{ opacity:1 }} style={{ position:"relative", zIndex:2 }}>
 
                       {/* Card header */}
-                      <div style={{ padding:"28px 32px 24px", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
+                      <div className="booking-card-header" style={{ padding:"28px 32px 24px", borderBottom:"1px solid rgba(255,255,255,0.06)" }}>
                         <div style={{ display:"flex", alignItems:"center", gap:14, marginBottom:6 }}>
                           <div style={{ width:40, height:40, background:"linear-gradient(135deg, rgba(204,255,0,0.15), rgba(109,40,217,0.15))", border:"1px solid rgba(204,255,0,0.22)", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
                             <Icon name="calendar_month" style={{ fontSize:20, color:"var(--lime)" }} />
@@ -191,9 +191,9 @@ export default function ContactPage({ navigate }) {
                       </div>
 
                       {/* Form */}
-                      <form onSubmit={submitBook} style={{ padding:"24px 32px 32px" }}>
+                      <form onSubmit={submitBook} className="booking-card-form" style={{ padding:"24px 32px 32px" }}>
                         {/* Name + Email row */}
-                        <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16, marginBottom:20 }}>
+                        <div className="booking-name-email" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16, marginBottom:20 }}>
                           <div style={{ position:"relative" }}>
                             <label style={{ display:"block", fontFamily:"'Space Grotesk',sans-serif", fontSize:9, fontWeight:700, textTransform:"uppercase", letterSpacing:".14em", color:"var(--lime)", marginBottom:6 }}>Name *</label>
                             <input

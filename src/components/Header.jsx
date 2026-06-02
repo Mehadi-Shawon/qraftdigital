@@ -53,7 +53,7 @@ export default function Header({ page, navigate, setMobileOpen }) {
         </nav>
 
         <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-          {/* CTA */}
+          {/* Desktop CTA */}
           <motion.button
             className="lime-btn nav-cta hide-mobile"
             style={{ padding:"10px 22px", fontSize:12 }}
@@ -62,6 +62,17 @@ export default function Header({ page, navigate, setMobileOpen }) {
             transition={{ type:"spring", stiffness:400, damping:20 }}
           >
             Start a Project
+          </motion.button>
+
+          {/* Mobile CTA — left of hamburger */}
+          <motion.button
+            className="show-mobile"
+            onClick={() => setModalOpen(true)}
+            style={{ display:"none", alignItems:"center", gap:6, padding:"8px 14px", background:"var(--lime)", border:"none", fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".08em", color:"#000", cursor:"pointer", whiteSpace:"nowrap" }}
+            whileHover={{ scale:1.04 }} whileTap={{ scale:.96 }}
+            transition={{ type:"spring", stiffness:400, damping:20 }}
+          >
+            Let's Talk
           </motion.button>
 
           {/* Hamburger */}

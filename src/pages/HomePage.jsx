@@ -97,10 +97,26 @@ const HOW_WE_WORK = [
 export default function HomePage({ navigate }) {
   useReveal();
   const statsRef = useRef(null);
+  const tabsRef  = useRef(null);
   const [statsVisible, setStatsVisible] = useState(false);
   const [faqOpen, setFaqOpen]           = useState(null);
   const [activeProject, setActiveProject] = useState(0);
+  const [tabScroll, setTabScroll] = useState({ left:0, max:0, ratio:1 });
   const heroRef = useRef(null);
+
+  const onTabsScroll = () => {
+    const el = tabsRef.current;
+    if (!el) return;
+    setTabScroll({ left: el.scrollLeft, max: el.scrollWidth - el.clientWidth, ratio: el.clientWidth / el.scrollWidth });
+  };
+
+  const selectTab = (i) => {
+    setActiveProject(i);
+    const el = tabsRef.current;
+    if (!el) return;
+    const btn = el.children[i];
+    if (btn) btn.scrollIntoView({ behavior:"smooth", block:"nearest", inline:"center" });
+  };
 
   const { scrollYProgress } = useScroll({ target: heroRef, offset:["start start","end start"] });
   const heroY = useTransform(scrollYProgress, [0,1], [0, 80]);
@@ -115,6 +131,12 @@ export default function HomePage({ navigate }) {
     return () => obs.disconnect();
   }, []);
 
+  useEffect(() => {
+    const el = tabsRef.current;
+    if (!el) return;
+    setTabScroll({ left: 0, max: el.scrollWidth - el.clientWidth, ratio: el.clientWidth / el.scrollWidth });
+  }, []);
+
   const faqs = [
     { q:"How long does a typical project take?",    a:"Usually 6–12 weeks depending on complexity. We work in 2-week sprints with clear milestones and full transparency." },
     { q:"Do you provide maintenance after launch?", a:"Yes. All projects include a 60-day post-launch support window. Long-term retainer plans are available for ongoing work." },
@@ -126,7 +148,7 @@ export default function HomePage({ navigate }) {
   return (
     <div>
       {/* ═══════════════════ HERO ═══════════════════ */}
-      <section ref={heroRef} style={{ position:"relative", overflow:"hidden", minHeight:"100vh", display:"flex", alignItems:"center" }}>
+      <section ref={heroRef} style={{ position:"relative", overflow:"hidden", minHeight:"100vh", display:"flex", alignItems:"center", isolation:"isolate" }}>
 
         {/* Deep atmospheric background */}
         <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse 130% 90% at 10% -5%, rgba(88,28,135,0.55) 0%, transparent 55%), radial-gradient(ellipse 70% 60% at 90% 105%, rgba(109,40,217,0.22) 0%, transparent 55%)", zIndex:0, pointerEvents:"none" }} />
@@ -340,7 +362,7 @@ export default function HomePage({ navigate }) {
       </section>
 
       {/* ═══════════════════ STATS BAR ═══════════════════ */}
-      <div ref={statsRef} style={{ position:"relative", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", overflow:"hidden" }}>
+      <div ref={statsRef} style={{ position:"relative", isolation:"isolate", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", overflow:"hidden" }}>
 
         {/* Full-width lime top edge */}
         <div style={{ position:"absolute", top:0, left:0, right:0, height:1, background:"linear-gradient(90deg, transparent 0%, var(--lime) 25%, rgba(136,255,170,0.7) 50%, var(--lime) 75%, transparent 100%)", zIndex:2 }} />
@@ -348,7 +370,7 @@ export default function HomePage({ navigate }) {
         {/* Background */}
         <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,6,22,0.98) 0%, rgba(6,4,14,0.95) 100%)" }} />
 
-        <StaggerContainer style={{ maxWidth:1440, margin:"0 auto", padding:"0 40px", display:"grid", gridTemplateColumns:"repeat(4,1fr)", position:"relative", zIndex:1 }}>
+        <StaggerContainer className="stats-grid" style={{ maxWidth:1440, margin:"0 auto", padding:"0 clamp(20px,4vw,40px)", display:"grid", gridTemplateColumns:"repeat(4,1fr)", position:"relative", zIndex:1 }}>
           {[
             { num:c1,     suffix:"+",  label:"Projects Shipped", sub:"End-to-end delivered",         icon:"rocket_launch", color:"var(--lime)" },
             { num:c2,     suffix:"%",  label:"Lighthouse Avg",   sub:"Across all production builds",  icon:"speed",         color:"#86efac"     },
@@ -359,7 +381,8 @@ export default function HomePage({ navigate }) {
               <motion.div
                 whileHover={{ background:"rgba(255,255,255,0.025)" }}
                 transition={{ duration:.25 }}
-                style={{ padding:"52px 36px", borderRight: i < 3 ? "1px solid var(--border)" : "none", position:"relative", height:"100%" }}
+                className="stats-item"
+                style={{ padding:"clamp(32px,4vw,52px) clamp(20px,3vw,36px)", position:"relative", height:"100%" }}
               >
                 {/* Per-column top accent */}
                 <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:`linear-gradient(90deg, ${color} 0%, transparent 65%)`, opacity:.75 }} />
@@ -418,19 +441,43 @@ export default function HomePage({ navigate }) {
           </Reveal>
 
           {/* Tab selector */}
-          <div className="featured-tabs" style={{ display:"flex", gap:1, background:"var(--border)", marginBottom:2, overflowX:"auto" }}>
-            {FEATURED.map((p, i) => (
-              <motion.button
-                key={i}
-                className="featured-tab"
-                onClick={() => setActiveProject(i)}
-                style={{ flex:1, padding:"14px 28px", background: activeProject===i ? "var(--lime)" : "var(--surface)", border:"none", fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".06em", color: activeProject===i ? "#000" : "var(--text3)", whiteSpace:"nowrap" }}
-                whileHover={{ background: activeProject===i ? "var(--lime)" : "var(--surface2)" }}
-                transition={{ duration:.2 }}
-              >
-                {p.tabLabel}
-              </motion.button>
-            ))}
+          <div style={{ position:"relative" }}>
+            <div
+              ref={tabsRef}
+              className="featured-tabs"
+              onScroll={onTabsScroll}
+              style={{ display:"flex", gap:1, background:"var(--border)", overflowX:"auto", scrollbarWidth:"none" }}
+            >
+              {FEATURED.map((p, i) => (
+                <motion.button
+                  key={i}
+                  className="featured-tab"
+                  onClick={() => selectTab(i)}
+                  style={{ flex:1, padding:"14px 28px", background: activeProject===i ? "var(--lime)" : "var(--surface)", border:"none", fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".06em", color: activeProject===i ? "#000" : "var(--text3)", whiteSpace:"nowrap" }}
+                  whileHover={{ background: activeProject===i ? "var(--lime)" : "var(--surface2)" }}
+                  transition={{ duration:.2 }}
+                >
+                  {p.tabLabel}
+                </motion.button>
+              ))}
+            </div>
+
+            {/* Left fade */}
+            <div style={{ position:"absolute", top:0, left:0, bottom:0, width:48, background:"linear-gradient(to right, rgba(4,2,12,0.9), transparent)", pointerEvents:"none", opacity: tabScroll.left > 4 ? 1 : 0, transition:"opacity .2s", zIndex:2 }} />
+            {/* Right fade */}
+            <div style={{ position:"absolute", top:0, right:0, bottom:0, width:48, background:"linear-gradient(to left, rgba(4,2,12,0.9), transparent)", pointerEvents:"none", opacity: tabScroll.max - tabScroll.left > 4 ? 1 : 0, transition:"opacity .2s", zIndex:2 }} />
+          </div>
+
+          {/* Thumb scrollbar — always visible, slides as you scroll */}
+          <div style={{ height:8, background:"rgba(255,255,255,0.06)", marginBottom:2, position:"relative", borderRadius:4, padding:"2px 0" }}>
+            <motion.div
+              style={{ position:"absolute", top:2, bottom:2, background:"var(--lime)", borderRadius:3 }}
+              animate={{
+                width:  `${Math.max(tabScroll.ratio * 100, 12)}%`,
+                left:   `${tabScroll.max > 0 ? (tabScroll.left / tabScroll.max) * (100 - Math.max(tabScroll.ratio * 100, 12)) : 0}%`,
+              }}
+              transition={{ duration:.12, ease:"easeOut" }}
+            />
           </div>
 
           <motion.div

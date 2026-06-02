@@ -434,6 +434,20 @@ img { max-width: 100%; display: block; }
 }
 
 
+/* Stats item borders — left border on every item except the first in each row */
+.stats-item { border-left: 1px solid var(--border); }
+.stats-grid > *:nth-child(4n+1) .stats-item { border-left: none; }
+
+@media (max-width: 1024px) {
+  .stats-grid > *:nth-child(4n+1) .stats-item { border-left: 1px solid var(--border); }
+  .stats-grid > *:nth-child(2n+1) .stats-item { border-left: none; }
+}
+
+@media (max-width: 480px) {
+  .stats-item { border-left: none; border-top: 1px solid var(--border); }
+  .stats-grid > *:first-child .stats-item { border-top: none; }
+}
+
 /* ═══════════════════════════════════════════
    RESPONSIVE — DESKTOP FIRST
 ═══════════════════════════════════════════ */
@@ -443,6 +457,16 @@ img { max-width: 100%; display: block; }
   .about-grid    { grid-template-columns: 1fr !important; }
   .about-img     { display: none !important; }
   .contact-grid  { grid-template-columns: 1fr !important; gap: 48px !important; }
+  .contact-hero  { align-items: flex-start !important; padding-top: 48px !important; padding-bottom: 56px !important; }
+}
+
+@media (max-width: 768px) {
+  .booking-card-header { padding: 20px 20px 16px !important; }
+  .booking-card-form   { padding: 16px 20px 24px !important; }
+}
+
+@media (max-width: 480px) {
+  .booking-name-email  { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 1024px) {
