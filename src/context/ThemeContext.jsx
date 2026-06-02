@@ -4,12 +4,12 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [dark, setDark] = useState(() => {
-    const saved = localStorage.getItem("nexbee-theme");
+    const saved = localStorage.getItem("qraft-theme");
     return saved ? saved === "dark" : true;
   });
 
   useEffect(() => {
-    localStorage.setItem("nexbee-theme", dark ? "dark" : "light");
+    localStorage.setItem("qraft-theme", dark ? "dark" : "light");
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
   }, [dark]);
 

@@ -1,28 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-
-/* ── Cursor ── */
-export function useCursor() {
-  const cursorRef = useRef(null);
-  const ringRef   = useRef(null);
-  useEffect(() => {
-    const move = (e) => {
-      if (cursorRef.current) { cursorRef.current.style.left = e.clientX + "px"; cursorRef.current.style.top = e.clientY + "px"; }
-      if (ringRef.current)   { ringRef.current.style.left  = e.clientX + "px"; ringRef.current.style.top  = e.clientY + "px"; }
-    };
-    const over = (e) => {
-      if (e.target.closest("a,button,[data-cursor]")) {
-        cursorRef.current?.classList.add("hovered");
-        ringRef.current?.classList.add("hovered");
-      }
-    };
-    const out = () => { cursorRef.current?.classList.remove("hovered"); ringRef.current?.classList.remove("hovered"); };
-    window.addEventListener("mousemove", move);
-    document.addEventListener("mouseover", over);
-    document.addEventListener("mouseout", out);
-    return () => { window.removeEventListener("mousemove", move); document.removeEventListener("mouseover", over); document.removeEventListener("mouseout", out); };
-  }, []);
-  return { cursorRef, ringRef };
-}
+import { useState, useEffect } from "react";
 
 /* ── Scroll reveal (vanilla, for non-framer sections) ── */
 export function useReveal() {

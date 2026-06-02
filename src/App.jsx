@@ -1,7 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ThemeProvider } from "./context/ThemeContext";
-import { useCursor } from "./hooks";
 import LoadingScreen from "./components/LoadingScreen";
 import Header        from "./components/Header";
 import MobileMenu    from "./components/MobileMenu";
@@ -11,6 +9,8 @@ import ServicesPage  from "./pages/ServicesPage";
 import WorkPage      from "./pages/WorkPage";
 import AboutPage     from "./pages/AboutPage";
 import ContactPage   from "./pages/ContactPage";
+import TermsPage     from "./pages/TermsPage";
+import PrivacyPage   from "./pages/PrivacyPage";
 import "./styles/global.css";
 
 const PAGES = {
@@ -19,14 +19,14 @@ const PAGES = {
   work:     WorkPage,
   about:    AboutPage,
   contact:  ContactPage,
+  terms:     TermsPage,
+  privacy:   PrivacyPage,
 };
 
 function AppInner() {
   const [page, setPage]             = useState("home");
   const [pageKey, setPageKey]       = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { cursorRef, ringRef }      = useCursor();
-
   const navigate = useCallback((p) => {
     setPage(p);
     setPageKey(k => k + 1);
@@ -43,12 +43,6 @@ function AppInner() {
 
   return (
     <div style={{ minHeight:"100vh", position:"relative", zIndex:1 }}>
-      {/* Ambient */}
-      <div className="grain-overlay" />
-      <div className="scanline" />
-      <div ref={cursorRef} className="cursor" />
-      <div ref={ringRef}   className="cursor-ring" />
-
       <MobileMenu open={mobileOpen} navigate={navigate} page={page} onClose={() => setMobileOpen(false)} />
       <Header page={page} navigate={navigate} setMobileOpen={setMobileOpen} />
 
@@ -73,9 +67,9 @@ function AppInner() {
 
 export default function App() {
   return (
-    <ThemeProvider>
+    <>
       <LoadingScreen />
       <AppInner />
-    </ThemeProvider>
+    </>
   );
 }

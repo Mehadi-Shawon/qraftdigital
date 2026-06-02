@@ -1,14 +1,17 @@
 import { motion } from "framer-motion";
 import { useReveal } from "../hooks";
-import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, TechPill, Stars, GlassCard } from "../components/UI";
+import founderImg from "../assets/Qraft Digitals Founder.jpg";
+import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, GhostBtn, TechPill, Stars, GlassCard } from "../components/UI";
 
 const TEAM = [
-  { name:"Md. Mehad Hossain", role:"Founder & Principal Engineer", bio:"Architecting high-scale distributed systems and driving the full technical vision of the agency.", img:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&crop=face" },
-  { name:"Farhan Khan",       role:"Head of Frontend Engineering", bio:"Bridging design and development with a deep focus on React, performance, and micro-interactions.",  img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=600&fit=crop&crop=face" },
-  { name:"Saima Islam",       role:"Lead UI/UX Strategist",        bio:"Defining user journeys and aesthetic precision for our global portfolio of digital products.",        img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=600&fit=crop&crop=face" },
-  { name:"Nadia Rahman",      role:"Operations & Delivery Lead",   bio:"Ensuring every project is delivered on time, on scope, and on budget — with zero drama.",             img:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=600&fit=crop&crop=face" },
-  { name:"Tariq Hassan",      role:"Backend Systems Architect",    bio:"Designing resilient APIs and database architectures that handle millions of operations per second.",   img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=600&fit=crop&crop=face" },
-  { name:"Rina Chowdhury",    role:"Brand & Motion Designer",      bio:"Crafting visual identities and motion systems that give brands a distinct, lasting market presence.",  img:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=600&fit=crop&crop=face" },
+  { name:"Md. Mehadi Hasan Shawon", role:"Founder & Principal Engineer", bio:"Architecting high-scale distributed systems and driving the full technical vision of the agency.", img:founderImg, color:"#CCFF00" },
+  { name:"Farhan Khan",       role:"Head of Frontend Engineering", bio:"Bridging design and development with a deep focus on React, performance, and micro-interactions.",  img:"https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=600&fit=crop&crop=face", color:"#60a5fa" },
+  { name:"Saima Islam",       role:"Lead UI/UX Strategist",        bio:"Defining user journeys and aesthetic precision for our global portfolio of digital products.",        img:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&h=600&fit=crop&crop=face", color:"#f472b6" },
+  { name:"Nadia Rahman",      role:"Operations & Delivery Lead",   bio:"Ensuring every project is delivered on time, on scope, and on budget — with zero drama.",             img:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=600&h=600&fit=crop&crop=face", color:"#4ade80" },
+  { name:"Tariq Hassan",      role:"Backend Systems Architect",    bio:"Designing resilient APIs and database architectures that handle millions of operations per second.",   img:"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=600&fit=crop&crop=face", color:"#fb923c" },
+  { name:"Rina Chowdhury",    role:"Brand & Motion Designer",      bio:"Crafting visual identities and motion systems that give brands a distinct, lasting market presence.",  img:"https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=600&fit=crop&crop=face", color:"#c084fc" },
+  { name:"Rafi Uddin",        role:"Mobile App Developer",         bio:"Building cross-platform mobile experiences with React Native that feel native on both iOS and Android.", img:"https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&h=600&fit=crop&crop=face", color:"#38bdf8" },
+  { name:"Tasnim Akter",      role:"Digital Marketing Lead",       bio:"Driving organic growth through data-driven SEO, content strategy, and performance marketing campaigns.", img:"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=600&fit=crop&crop=face", color:"#fbbf24" },
 ];
 
 const HOW_WE_OPERATE = [
@@ -33,27 +36,43 @@ export default function AboutPage({ navigate }) {
   return (
     <div>
       {/* ═══ HERO ═══ */}
-      <section style={{ position:"relative", overflow:"hidden", padding:"100px 40px 80px" }} className="px-section">
-        <div style={{ position:"absolute", top:-200, right:-200, width:600, height:600, borderRadius:"50%", background:"radial-gradient(circle,rgba(88,28,135,0.25) 0%,transparent 70%)", pointerEvents:"none" }} />
-        <div style={{ maxWidth:1440, margin:"0 auto", position:"relative", zIndex:1 }}>
+      <section style={{ position:"relative", overflow:"hidden", minHeight:"68vh", display:"flex", alignItems:"center" }}>
+
+        {/* Background image */}
+        <div style={{ position:"absolute", inset:0, backgroundImage:"url(https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&h=900&fit=crop)", backgroundSize:"cover", backgroundPosition:"center top", zIndex:0 }} />
+
+        {/* Layered dark overlay */}
+        <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg, rgba(6,4,14,0.94) 0%, rgba(30,10,70,0.82) 50%, rgba(6,4,14,0.9) 100%)", zIndex:1 }} />
+
+        {/* Subtle grid texture */}
+        <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(204,255,0,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(204,255,0,.015) 1px,transparent 1px)", backgroundSize:"80px 80px", zIndex:2, pointerEvents:"none" }} />
+
+        {/* Bottom fade */}
+        <div style={{ position:"absolute", bottom:0, left:0, right:0, height:120, background:"linear-gradient(to bottom, transparent, var(--bg))", zIndex:3, pointerEvents:"none" }} />
+
+        <div className="px-section" style={{ maxWidth:1440, margin:"0 auto", position:"relative", zIndex:4, padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px) clamp(56px,8vw,100px)", width:"100%" }}>
           <Reveal>
             <SectionLabel>Our Story</SectionLabel>
-            <h1 className="h1" style={{ marginBottom:24, maxWidth:700 }}>Who<br />we are.</h1>
-            <p className="body-lg" style={{ maxWidth:560 }}>
+            <h1 className="h1" style={{ marginBottom:24, maxWidth:680 }}>Who<br />we are.</h1>
+            <p className="body-lg" style={{ maxWidth:520, marginBottom:44 }}>
               A high-performance digital laboratory engineering solutions for the modern web — from the heart of Dhaka to clients across the globe.
             </p>
+            <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
+              <LimeBtn onClick={() => navigate("contact")}>Work With Us <Icon name="arrow_forward" style={{ fontSize:17 }} /></LimeBtn>
+              <GhostBtn onClick={() => navigate("work")}>View Our Work</GhostBtn>
+            </div>
           </Reveal>
         </div>
       </section>
 
       {/* ═══ STORY ═══ */}
-      <section style={{ borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", padding:"80px 40px" }} className="px-section">
+      <section style={{ borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", padding:"clamp(48px,6vw,80px) clamp(20px,4vw,40px)" }} className="px-section">
         <div className="about-grid" style={{ maxWidth:1440, margin:"0 auto", display:"grid", gridTemplateColumns:"1fr 440px", gap:80, alignItems:"center" }}>
           <Reveal direction="left">
             <h2 className="h2" style={{ marginBottom:28 }}>We started to solve a fundamental problem.</h2>
             <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
               {[
-                "NexbeeLabs was founded on the belief that technical excellence shouldn't be a premium accessory — it should be the baseline. In an industry cluttered with over-promising and underdelivering, we built a refuge for direct engineering and pure functional design.",
+                "Qraft Digital was founded on the belief that technical excellence shouldn't be a premium accessory — it should be the baseline. In an industry cluttered with over-promising and underdelivering, we built a refuge for direct engineering and pure functional design.",
                 "Based in Dhaka but operating globally, we bridge the gap between regional talent and international standards. Our team builds high-availability systems and pixel-perfect interfaces that always prioritize user efficiency over decorative noise.",
                 "Today we serve partners from pre-seed startups to enterprise conglomerates. They all share one demand: software that works when the pressure is on.",
               ].map((p,i) => <p key={i} className="body-sm" style={{ fontSize:15, lineHeight:1.8 }}>{p}</p>)}
@@ -82,13 +101,13 @@ export default function AboutPage({ navigate }) {
       </section>
 
       {/* ═══ CORE VALUES — responsive 4-col grid ═══ */}
-      <section className="section-grad px-section" style={{ padding:"100px 40px" }}>
+      <section className="section-grad px-section" style={{ padding:"clamp(56px,8vw,100px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:56 }}>
             <SectionLabel>Core Values</SectionLabel>
             <h2 className="h2">The principles we don't compromise on.</h2>
           </Reveal>
-          <StaggerContainer className="values-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:1, background:"var(--border)" }}>
+          <StaggerContainer className="values-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:1, background:"transparent" }}>
             {VALUES.map(({ n, icon, title, desc }) => (
               <StaggerItem key={n}>
                 <div className="card" style={{ padding:40, border:"none", height:"100%" }}>
@@ -106,27 +125,27 @@ export default function AboutPage({ navigate }) {
       </section>
 
       {/* ═══ TEAM — responsive 3-col grid (was 4, caused overflow) ═══ */}
-      <section className="section-photo px-section" style={{ backgroundImage:"url(https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop)", padding:"100px 40px" }}>
+      <section className="section-photo px-section" style={{ backgroundImage:"url(https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop)", padding:"clamp(56px,8vw,100px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:56 }}>
             <SectionLabel>Engineering Leadership</SectionLabel>
             <h2 className="h2">The people behind the code.</h2>
           </Reveal>
-          <StaggerContainer className="team-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:24 }}>
-            {TEAM.map(({ name, role, bio, img }) => (
+          <StaggerContainer className="team-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16 }}>
+            {TEAM.map(({ name, role, bio, img, color }) => (
               <StaggerItem key={name}>
                 <motion.div
                   className="glass-card"
                   style={{ padding:0, overflow:"hidden" }}
-                  whileHover={{ y:-8, boxShadow:"0 32px 64px rgba(0,0,0,0.4)" }}
+                  whileHover={{ y:-6, boxShadow:`0 24px 48px rgba(0,0,0,0.4)` }}
                 >
                   <div className="img-hover" style={{ overflow:"hidden", aspectRatio:"1" }}>
                     <img src={img} alt={name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
                   </div>
-                  <div style={{ padding:24 }}>
-                    <h4 className="h3" style={{ fontSize:16, marginBottom:4 }}>{name}</h4>
-                    <p style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:".1em", color:"var(--lime)", marginBottom:12 }}>{role}</p>
-                    <p className="body-sm" style={{ fontSize:13 }}>{bio}</p>
+                  <div style={{ padding:16 }}>
+                    <h4 className="h3" style={{ fontSize:14, marginBottom:3 }}>{name}</h4>
+                    <p style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:9, fontWeight:700, textTransform:"uppercase", letterSpacing:".1em", color, marginBottom:8 }}>{role}</p>
+                    <p className="body-sm" style={{ fontSize:12, lineHeight:1.6 }}>{bio}</p>
                   </div>
                 </motion.div>
               </StaggerItem>
@@ -136,13 +155,13 @@ export default function AboutPage({ navigate }) {
       </section>
 
       {/* ═══ HOW WE OPERATE — responsive 2-col grid ═══ */}
-      <section className="px-section" style={{ background:"rgba(4,2,12,0.85)", borderTop:"1px solid var(--border)", padding:"100px 40px" }}>
+      <section className="px-section" style={{ background:"rgba(4,2,12,0.85)", borderTop:"1px solid var(--border)", padding:"clamp(56px,8vw,100px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:56 }}>
             <SectionLabel>How We Operate</SectionLabel>
             <h2 className="h2">Structure that delivers.</h2>
           </Reveal>
-          <StaggerContainer className="values-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:1, background:"var(--border)" }}>
+          <StaggerContainer className="values-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:1, background:"transparent" }}>
             {HOW_WE_OPERATE.map(({ icon, title, desc }) => (
               <StaggerItem key={title}>
                 <GlassCard style={{ padding:40, height:"100%" }}>
@@ -157,7 +176,7 @@ export default function AboutPage({ navigate }) {
       </section>
 
       {/* ═══ TECH STACK ═══ */}
-      <section className="section-grad px-section" style={{ padding:"100px 40px" }}>
+      <section className="section-grad px-section" style={{ padding:"clamp(56px,8vw,100px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:48 }}>
             <SectionLabel>Our Stack</SectionLabel>
@@ -170,17 +189,17 @@ export default function AboutPage({ navigate }) {
       </section>
 
       {/* ═══ TESTIMONIALS ═══ */}
-      <section className="px-section" style={{ background:"rgba(4,2,12,0.8)", borderTop:"1px solid var(--border)", padding:"100px 40px" }}>
+      <section className="px-section" style={{ background:"rgba(4,2,12,0.8)", borderTop:"1px solid var(--border)", padding:"clamp(56px,8vw,100px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:48 }}>
             <SectionLabel>What Clients Say</SectionLabel>
             <h2 className="h2">Results speak loudest.</h2>
           </Reveal>
-          <StaggerContainer className="testimonials-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)" }}>
+          <StaggerContainer className="testimonials-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"transparent" }}>
             {[
-              { q:"The engineering precision NexbeeLabs brought to our fintech platform was beyond anything we'd experienced. Pure mastery.",  name:"John Doe",    title:"CTO, FinStream"       },
+              { q:"The engineering precision Qraft Digital brought to our fintech platform was beyond anything we'd experienced. Pure mastery.",  name:"John Doe",    title:"CTO, FinStream"       },
               { q:"They delivered a complex SaaS dashboard in record time with zero compromise on quality. A truly rare partner.",            name:"Jane Smith",  title:"Product Lead, Velocity"},
-              { q:"Working with NexbeeLabs felt like having our own elite engineering team embedded. Direct, honest, and brutally effective.",name:"Arif Rahman", title:"CEO, Dhaka Tech"       },
+              { q:"Working with Qraft Digital felt like having our own elite engineering team embedded. Direct, honest, and brutally effective.",name:"Arif Rahman", title:"CEO, Dhaka Tech"       },
             ].map(({ q, name, title }) => (
               <StaggerItem key={name}>
                 <div className="testimonial-card" style={{ height:"100%" }}>
@@ -196,7 +215,7 @@ export default function AboutPage({ navigate }) {
       </section>
 
       {/* ═══ CTA ═══ */}
-      <section className="px-section" style={{ maxWidth:1440, margin:"0 auto", padding:"100px 40px" }}>
+      <section className="px-section" style={{ maxWidth:1440, margin:"0 auto", padding:"clamp(56px,8vw,100px) clamp(20px,4vw,40px)" }}>
         <Reveal>
           <motion.div
             style={{ background:"var(--lime)", padding:"64px clamp(32px,6vw,80px)", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:32, position:"relative", overflow:"hidden" }}

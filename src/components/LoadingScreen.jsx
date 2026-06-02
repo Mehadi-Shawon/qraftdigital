@@ -30,7 +30,7 @@ export default function LoadingScreen() {
             transition={{ duration:.6, delay:.1 }}
             style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:36, fontWeight:700, textTransform:"uppercase", letterSpacing:"-.04em", color:"#fff", marginBottom:40 }}
           >
-            Nexbee<span style={{ color:"#CCFF00" }}>Labs</span>
+            Qraft<span style={{ color:"#CCFF00" }}>Digital</span>
           </motion.div>
 
           {/* Orbiting ring */}

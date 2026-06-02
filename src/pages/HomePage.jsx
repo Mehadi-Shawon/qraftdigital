@@ -1,26 +1,80 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useReveal, useCountUp, useTypewriter } from "../hooks";
+import { useReveal, useCountUp } from "../hooks";
 import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, GhostBtn, Stars, Badge, TiltCard, GlassCard } from "../components/UI";
 
 const FEATURED = [
   {
-    client:"NexaStore", num:"01", title:"High-Performance E-Commerce", tag:"Web · Commerce",
+    client:"NexaStore", num:"01", tabLabel:"E-Commerce", title:"High-Performance E-Commerce", tag:"Web · Commerce",
     desc:"Headless commerce platform with sub-100ms interactions, global CDN, and a 45% lift in conversion rate after launch.",
     result:"45% conversion lift", stack:["React","Node.js","AWS"],
     img:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1400&h=900&fit=crop", color:"rgba(204,255,0,0.08)",
   },
   {
-    client:"Orbit Analytics", num:"02", title:"Real-Time SaaS Dashboard", tag:"SaaS · Data",
-    desc:"Live data visualization handling 50k+ concurrent users with PostgreSQL and Redis. Reporting now 3× faster for enterprise clients.",
-    result:"3× faster reporting", stack:["Next.js","PostgreSQL","Redis"],
-    img:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1400&h=900&fit=crop", color:"rgba(109,40,217,0.08)",
+    client:"Bistro Dhaka", num:"02", tabLabel:"Restaurant", title:"Restaurant Brand & Booking System", tag:"Web · Restaurant",
+    desc:"Full digital presence for a premium Dhaka restaurant — online menu, live table reservation, and a loyalty program that drove 60% repeat visits within 3 months.",
+    result:"60% repeat visits", stack:["Next.js","Node.js","Stripe"],
+    img:"https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1400&h=900&fit=crop", color:"rgba(251,146,60,0.08)",
   },
   {
-    client:"HealthSync", num:"03", title:"Mobile Health Platform", tag:"Mobile · HIPAA",
-    desc:"Secure React Native app with encrypted data flows and biometric auth. Rated 4.9★ on App Store in its first quarter.",
-    result:"4.9★ App Store", stack:["React Native","GraphQL","AWS"],
-    img:"https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1400&h=900&fit=crop", color:"rgba(88,28,135,0.08)",
+    client:"MediCare Plus", num:"03", tabLabel:"Healthcare", title:"Healthcare Patient Portal", tag:"Web · Healthcare",
+    desc:"HIPAA-compliant patient management portal with appointment scheduling, teleconsultation, and secure medical record access serving 10,000+ active patients.",
+    result:"10k+ active patients", stack:["React","Node.js","PostgreSQL"],
+    img:"https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1400&h=900&fit=crop", color:"rgba(96,165,250,0.08)",
+  },
+  {
+    client:"SwiftNet ISP", num:"04", tabLabel:"Local ISP", title:"Local ISP Management Platform", tag:"Web · ISP · SaaS",
+    desc:"Customer self-service portal and backend management system for a local ISP — billing automation, live usage tracking, and support ticketing reduced churn by 35%.",
+    result:"35% churn reduction", stack:["React","Node.js","AWS"],
+    img:"https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1400&h=900&fit=crop", color:"rgba(139,92,246,0.08)",
+  },
+  {
+    client:"LocalMart BD", num:"05", tabLabel:"Local Business", title:"Local Business Digital Presence", tag:"Web · Local Business",
+    desc:"End-to-end digital transformation for a multi-branch retailer — website, inventory management, and WhatsApp-integrated ordering that tripled online orders.",
+    result:"3× online orders", stack:["Next.js","Firebase","Stripe"],
+    img:"https://images.unsplash.com/photo-1556740749-887f6717d7e4?w=1400&h=900&fit=crop", color:"rgba(52,211,153,0.08)",
+  },
+  {
+    client:"Lumière Beauty", num:"06", tabLabel:"Beauty Shop", title:"Luxury Beauty Salon Platform", tag:"Web · Beauty",
+    desc:"Online booking, service catalog, and loyalty program for a premium salon chain. Automated reminders cut no-shows by 50% and lifted monthly revenue 38%.",
+    result:"50% fewer no-shows", stack:["Next.js","Stripe","Twilio"],
+    img:"https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1400&h=900&fit=crop", color:"rgba(244,114,182,0.08)",
+  },
+  {
+    client:"ShopZone BD", num:"07", tabLabel:"Marketplace", title:"Multi-Vendor E-Commerce Platform", tag:"Web · Commerce",
+    desc:"Scalable marketplace handling 500+ sellers and 20,000+ SKUs with a frictionless checkout flow that pushed site-wide conversion to 4.2%.",
+    result:"4.2% conversion rate", stack:["Next.js","Node.js","PostgreSQL"],
+    img:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1400&h=900&fit=crop", color:"rgba(204,255,0,0.08)",
+  },
+  {
+    client:"Vertex Corp", num:"08", tabLabel:"Business", title:"Corporate Business Website", tag:"Web · Corporate",
+    desc:"High-authority B2B corporate website with a lead-generation focus — SEO-optimised architecture and conversion-tuned landing pages tripled inbound enquiries in 90 days.",
+    result:"3× inbound leads", stack:["Next.js","Sanity CMS","Vercel"],
+    img:"https://images.unsplash.com/photo-1497366216548-37526070297c?w=1400&h=900&fit=crop", color:"rgba(148,163,184,0.08)",
+  },
+  {
+    client:"EduVision Institute", num:"09", tabLabel:"Institutional", title:"Institutional Academic Portal", tag:"Web · Education",
+    desc:"Comprehensive academic portal for a private university — course management, student dashboard, online admissions, and faculty tools serving 5,000+ enrolled students.",
+    result:"5k+ students onboarded", stack:["React","Node.js","PostgreSQL"],
+    img:"https://images.unsplash.com/photo-1562774053-701939374585?w=1400&h=900&fit=crop", color:"rgba(251,191,36,0.08)",
+  },
+  {
+    client:"Aryan Malik", num:"10", tabLabel:"Portfolio", title:"Creative Portfolio Website", tag:"Web · Portfolio",
+    desc:"Immersive personal portfolio for a senior product designer — custom scroll animations, 3D project showcases, and a case study layout that landed 3 Fortune 500 interview invites within a week of launch.",
+    result:"3 F500 interviews in a week", stack:["Next.js","Framer Motion","Vercel"],
+    img:"https://images.unsplash.com/photo-1545665277-5937489579f2?w=1400&h=900&fit=crop", color:"rgba(168,85,247,0.08)",
+  },
+  {
+    client:"DhakaThreads Export", num:"11", tabLabel:"Garments B2B", title:"RMG Export B2B Platform", tag:"Web · Garments · B2B",
+    desc:"B2B buyer portal for a Dhaka-based readymade garments exporter — product catalogue, sampling request system, and shipment tracking that onboarded 40+ international buyers within two months of launch.",
+    result:"40+ international buyers", stack:["Next.js","Node.js","AWS"],
+    img:"https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1400&h=900&fit=crop", color:"rgba(251,146,60,0.08)",
+  },
+  {
+    client:"BashaBari BD", num:"12", tabLabel:"Real Estate", title:"Dhaka Property Listing Platform", tag:"Web · Real Estate",
+    desc:"Full-stack property listing and lead platform for a Dhaka real estate firm — advanced location-based search, virtual tour embeds, and an agent CRM that cut lead response time from 48 hours to under 4.",
+    result:"4hr lead response time", stack:["Next.js","PostgreSQL","Google Maps API"],
+    img:"https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1400&h=900&fit=crop", color:"rgba(52,211,153,0.08)",
   },
 ];
 
@@ -49,10 +103,8 @@ export default function HomePage({ navigate }) {
   const heroRef = useRef(null);
 
   const { scrollYProgress } = useScroll({ target: heroRef, offset:["start start","end start"] });
-  const heroY     = useTransform(scrollYProgress, [0,1], [0, 120]);
-  const heroOpacity = useTransform(scrollYProgress, [0,.8], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0,1], [0, 80]);
 
-  const typedText = useTypewriter(["That Actually Work","That Scale Globally","With Precision","At Lightning Speed"]);
   const c1 = useCountUp(140, 1400, statsVisible);
   const c2 = useCountUp(98,  1200, statsVisible);
   const c3 = useCountUp(12,  1000, statsVisible);
@@ -74,151 +126,273 @@ export default function HomePage({ navigate }) {
   return (
     <div>
       {/* ═══════════════════ HERO ═══════════════════ */}
-      <section ref={heroRef} style={{ position:"relative", overflow:"hidden", minHeight:"95vh", display:"flex", alignItems:"center" }}>
-        {/* Animated background orbs */}
-        <motion.div style={{ y: heroY }} className="bg-orb" style={{ width:600, height:600, background:"radial-gradient(circle, rgba(88,28,135,0.35) 0%, transparent 70%)", top:-200, left:-200, position:"absolute", animation:"orb1 12s ease-in-out infinite" }} />
-        <motion.div className="bg-orb" style={{ width:400, height:400, background:"radial-gradient(circle, rgba(204,255,0,0.06) 0%, transparent 70%)", bottom:0, right:-100, position:"absolute", animation:"orb2 16s ease-in-out infinite" }} />
+      <section ref={heroRef} style={{ position:"relative", overflow:"hidden", minHeight:"100vh", display:"flex", alignItems:"center" }}>
 
-        {/* Grid pattern overlay */}
-        <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(204,255,0,.025) 1px, transparent 1px),linear-gradient(90deg,rgba(204,255,0,.025) 1px,transparent 1px)", backgroundSize:"60px 60px", zIndex:0 }} />
+        {/* Deep atmospheric background */}
+        <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse 130% 90% at 10% -5%, rgba(88,28,135,0.55) 0%, transparent 55%), radial-gradient(ellipse 70% 60% at 90% 105%, rgba(109,40,217,0.22) 0%, transparent 55%)", zIndex:0, pointerEvents:"none" }} />
 
-        <motion.div style={{ opacity: heroOpacity }} className="px-section" style={{ maxWidth:1440, margin:"0 auto", padding:"80px 40px 100px", position:"relative", zIndex:2, width:"100%" }}>
-          <div className="hero-grid" style={{ display:"grid", gridTemplateColumns:"1fr 500px", gap:80, alignItems:"center" }}>
+        {/* Subtle grid */}
+        <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(204,255,0,.018) 1px, transparent 1px),linear-gradient(90deg,rgba(204,255,0,.018) 1px,transparent 1px)", backgroundSize:"80px 80px", zIndex:1, pointerEvents:"none" }} />
 
-            {/* Copy */}
-            <div>
-              <motion.div
-                initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }}
-                transition={{ duration:.7, ease:[.2,.8,.2,1] }}
-              >
-                <div style={{ display:"inline-flex", alignItems:"center", gap:10, border:"1px solid rgba(204,255,0,.35)", padding:"6px 16px", marginBottom:32, background:"rgba(204,255,0,.04)" }}>
-                  <span style={{ width:7, height:7, background:"var(--lime)", borderRadius:"50%", animation:"pulse 2s infinite", flexShrink:0 }} />
-                  <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:600, textTransform:"uppercase", letterSpacing:".12em", color:"var(--lime)" }}>Digital Agency · Dhaka</span>
-                </div>
+        {/* Animated orbs */}
+        <motion.div animate={{ x:[0,28,-18,0], y:[0,-18,28,0] }} transition={{ repeat:Infinity, duration:20, ease:"linear" }} style={{ position:"absolute", width:800, height:800, borderRadius:"50%", background:"radial-gradient(circle, rgba(88,28,135,0.25) 0%, transparent 70%)", top:"-25%", left:"-12%", zIndex:0, filter:"blur(70px)", pointerEvents:"none" }} />
+        <motion.div animate={{ x:[0,-24,16,0], y:[0,16,-24,0] }} transition={{ repeat:Infinity, duration:15, ease:"linear" }} style={{ position:"absolute", width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle, rgba(204,255,0,0.05) 0%, transparent 70%)", bottom:"5%", right:"-8%", zIndex:0, filter:"blur(50px)", pointerEvents:"none" }} />
 
-                <h1 className="h1" style={{ marginBottom:0 }}>
-                  We Build<br />Digital Products
-                </h1>
-                <div className="h1 grad-text" style={{ marginBottom:24, minHeight:"1.05em" }}>
-                  {typedText}<span style={{ animation:"blink 1s infinite", borderRight:"3px solid var(--lime)", marginLeft:2 }}>&nbsp;</span>
-                </div>
+        {/* Parallax + fade wrapper */}
+        <motion.div style={{ y: heroY, width:"100%", position:"relative", zIndex:2 }}>
+          <div className="px-section" style={{ maxWidth:1440, margin:"0 auto", padding:"72px 40px 48px", width:"100%" }}>
+            <div className="hero-grid" style={{ display:"grid", gridTemplateColumns:"1fr 440px", gap:60, alignItems:"center" }}>
 
-                <p className="body-lg" style={{ maxWidth:520, marginBottom:44 }}>
-                  High-performance engineering meets direct digital strategy. No fluff — just measurable results for leaders who demand more.
-                </p>
+              {/* LEFT — copy */}
+              <div>
+                {/* Agency tag */}
+                <motion.div
+                  initial={{ opacity:0, x:-20 }} animate={{ opacity:1, x:0 }}
+                  transition={{ duration:.6, ease:[.2,.8,.2,1] }}
+                  style={{ display:"inline-flex", alignItems:"center", gap:12, marginBottom:24 }}
+                >
+                  <div style={{ width:28, height:1, background:"var(--lime)" }} />
+                  <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:600, textTransform:"uppercase", letterSpacing:".16em", color:"var(--lime)" }}>Digital Agency · Dhaka</span>
+                </motion.div>
 
-                <div className="hero-btns" style={{ display:"flex", gap:16, flexWrap:"wrap", marginBottom:56 }}>
-                  <LimeBtn onClick={() => navigate("contact")}>Start a Project <Icon name="arrow_forward" style={{ fontSize:18 }} /></LimeBtn>
-                  <GhostBtn onClick={() => navigate("work")}>View Our Work</GhostBtn>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:.5, duration:.8 }}
-                className="hero-stats" style={{ display:"flex", gap:48, paddingTop:40, borderTop:"1px solid var(--border)" }}
-              >
-                {[["7+","Years"],["140+","Projects"],["98%","Retention"],["24/7","Support"]].map(([n,l]) => (
-                  <div key={l}>
-                    <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(24px,3vw,36px)", fontWeight:700, color:"var(--text)", letterSpacing:"-.03em", lineHeight:1 }}>{n}</div>
-                    <div style={{ fontSize:11, color:"var(--text3)", fontFamily:"'Space Grotesk',sans-serif", textTransform:"uppercase", letterSpacing:".1em", marginTop:6 }}>{l}</div>
+                {/* Mega headline — line-by-line clip reveal */}
+                {[
+                  { text:"WE BUILD",   color:"var(--text)",  gradient:false },
+                  { text:"DIGITAL",    color:"",             gradient:true  },
+                  { text:"PRODUCTS.",  color:"var(--text3)", gradient:false },
+                ].map(({ text, color, gradient }, i) => (
+                  <div key={text} style={{ overflow:"hidden", marginBottom: i < 2 ? 2 : 0 }}>
+                    <motion.div
+                      initial={{ y:"110%" }} animate={{ y:0 }}
+                      transition={{ duration:.95, ease:[.16,1,.3,1], delay:.08 + i * .14 }}
+                    >
+                      <div style={{
+                        fontFamily:"'Space Grotesk',sans-serif",
+                        fontSize:"clamp(36px,5.2vw,78px)",
+                        fontWeight:700, lineHeight:.9, letterSpacing:"-.04em",
+                        color: gradient ? "transparent" : color,
+                        background: gradient ? "linear-gradient(135deg, var(--lime) 0%, #88ffaa 100%)" : "none",
+                        WebkitBackgroundClip: gradient ? "text" : "unset",
+                        WebkitTextFillColor: gradient ? "transparent" : "unset",
+                        backgroundClip: gradient ? "text" : "unset",
+                      }}>{text}</div>
+                    </motion.div>
                   </div>
                 ))}
-              </motion.div>
-            </div>
 
-            {/* Dashboard hero card */}
-            <motion.div
-              className="hero-card"
-              initial={{ opacity:0, x:60, rotateY:15 }} animate={{ opacity:1, x:0, rotateY:0 }}
-              transition={{ duration:1, delay:.3, ease:[.2,.8,.2,1] }}
-              style={{ animation:"floatY 5s ease-in-out infinite", animationDelay:"1s" }}
-            >
-              <TiltCard>
-                <div style={{ background:"var(--surface)", border:"1px solid var(--border)", padding:32, position:"relative", zIndex:2, boxShadow:"0 40px 80px rgba(0,0,0,0.5)" }}>
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:24 }}>
-                    <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".12em", color:"var(--lime)" }}>Live Build Feed</span>
-                    <span style={{ width:8, height:8, borderRadius:"50%", background:"var(--lime)", boxShadow:"0 0 12px var(--lime)", animation:"pulse 2s infinite" }} />
-                  </div>
-                  <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:80, fontWeight:700, lineHeight:1, color:"var(--text)", marginBottom:4 }}>98</div>
-                  <div style={{ fontSize:12, color:"var(--text3)", marginBottom:24 }}>Lighthouse Performance Score</div>
-                  {[{label:"Speed",val:98},{label:"Accessibility",val:96},{label:"SEO",val:100},{label:"Best Practices",val:95}].map(({ label, val }) => (
-                    <div key={label} style={{ marginBottom:12 }}>
-                      <div style={{ display:"flex", justifyContent:"space-between", marginBottom:5 }}>
-                        <span style={{ fontSize:11, color:"var(--text2)" }}>{label}</span>
-                        <span style={{ fontSize:11, fontFamily:"'Space Grotesk',sans-serif", color:"var(--text)", fontWeight:700 }}>{val}</span>
-                      </div>
-                      <div style={{ height:2, background:"var(--border)", position:"relative" }}>
-                        <motion.div
-                          style={{ position:"absolute", top:0, left:0, height:"100%", background:"var(--lime)" }}
-                          initial={{ width:0 }} animate={{ width:`${val}%` }}
-                          transition={{ duration:1.5, delay:.8, ease:[.2,.8,.2,1] }}
-                        />
-                      </div>
+                {/* Animated divider */}
+                <motion.div
+                  initial={{ scaleX:0 }} animate={{ scaleX:1 }}
+                  transition={{ duration:1, ease:[.2,.8,.2,1], delay:.56 }}
+                  style={{ height:1, background:"linear-gradient(90deg, var(--border2) 0%, transparent 75%)", margin:"18px 0 16px", transformOrigin:"left" }}
+                />
+
+                <motion.p
+                  initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
+                  transition={{ duration:.7, delay:.72, ease:[.2,.8,.2,1] }}
+                  style={{ maxWidth:460, marginBottom:22, color:"var(--text2)", lineHeight:1.65, fontSize:"clamp(14px,1.2vw,15px)" }}
+                >
+                  High-performance engineering meets direct digital strategy. No fluff — just measurable results for leaders who demand more.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
+                  transition={{ duration:.7, delay:.88, ease:[.2,.8,.2,1] }}
+                  style={{ display:"flex", gap:12, flexWrap:"wrap", marginBottom:28 }}
+                >
+                  <LimeBtn onClick={() => navigate("contact")}>Start a Project <Icon name="arrow_forward" style={{ fontSize:17 }} /></LimeBtn>
+                  <GhostBtn onClick={() => navigate("work")}>View Our Work</GhostBtn>
+                </motion.div>
+
+                {/* Stats strip */}
+                <motion.div
+                  initial={{ opacity:0 }} animate={{ opacity:1 }}
+                  transition={{ delay:1.05, duration:.8 }}
+                  style={{ display:"flex", paddingTop:20, borderTop:"1px solid var(--border)" }}
+                >
+                  {[["7+","Years Active"],["140+","Projects"],["98%","Retention"],["24/7","Support"]].map(([n,l], i) => (
+                    <div key={l} style={{ flex:1, paddingLeft:i===0?0:20, borderLeft:i===0?"none":"1px solid var(--border)" }}>
+                      <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(18px,1.8vw,26px)", fontWeight:700, color:"var(--text)", letterSpacing:"-.03em", lineHeight:1 }}>{n}</div>
+                      <div style={{ fontSize:9, color:"var(--text3)", fontFamily:"'Space Grotesk',sans-serif", textTransform:"uppercase", letterSpacing:".1em", marginTop:4 }}>{l}</div>
                     </div>
                   ))}
-                  <div style={{ marginTop:20, paddingTop:16, borderTop:"1px solid var(--border)" }}>
-                    {[{text:"Design system build",active:true,ping:true},{text:"Responsive pass",active:true,ping:false},{text:"Performance audit",active:false,ping:false}].map(({ text, active, ping }) => (
-                      <div key={text} style={{ display:"flex", gap:10, alignItems:"center", marginBottom:10 }}>
-                        <div style={{ position:"relative", width:8, height:8, flexShrink:0 }}>
-                          <div style={{ width:8, height:8, borderRadius:"50%", background: active?"var(--lime)":"var(--border)" }} />
-                          {ping && <div style={{ position:"absolute", inset:0, borderRadius:"50%", background:"var(--lime)", animation:"ping 1.5s infinite" }} />}
-                        </div>
-                        <span style={{ fontSize:12, color: active?"var(--text)":"var(--text3)" }}>{text}</span>
-                      </div>
-                    ))}
+                </motion.div>
+              </div>
+
+              {/* RIGHT — premium project card */}
+              <motion.div
+                initial={{ opacity:0, y:50 }} animate={{ opacity:1, y:0 }}
+                transition={{ duration:1.1, delay:.38, ease:[.16,1,.3,1] }}
+                style={{ position:"relative" }}
+              >
+                {/* Floating badge — top right */}
+                <motion.div
+                  animate={{ y:[0,-9,0] }} transition={{ repeat:Infinity, duration:3.5, ease:"easeInOut" }}
+                  style={{ position:"absolute", top:-20, right:-14, zIndex:10, background:"var(--surface2)", border:"1px solid var(--border2)", padding:"10px 14px", display:"flex", alignItems:"center", gap:8, boxShadow:"0 16px 40px rgba(0,0,0,0.5)" }}
+                >
+                  <Icon name="trending_up" style={{ fontSize:20, color:"var(--lime)" }} />
+                  <div>
+                    <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, fontSize:16, color:"var(--lime)", lineHeight:1 }}>+45%</div>
+                    <div style={{ fontSize:8, color:"var(--text3)", textTransform:"uppercase", letterSpacing:".1em", marginTop:2 }}>Conv. Rate</div>
                   </div>
-                </div>
-                <div style={{ position:"absolute", bottom:-12, right:-12, left:12, top:12, background:"var(--surface2)", border:"1px solid var(--border)", zIndex:1 }} />
-              </TiltCard>
-            </motion.div>
+                </motion.div>
+
+                <TiltCard>
+                  <div style={{ position:"relative" }}>
+
+                    {/* Browser chrome */}
+                    <div style={{ background:"var(--surface2)", border:"1px solid var(--border2)", borderBottom:"none", padding:"10px 16px", display:"flex", alignItems:"center", gap:6 }}>
+                      <div style={{ display:"flex", gap:5 }}>
+                        {["rgba(255,95,87,.75)","rgba(254,188,46,.75)","rgba(40,200,64,.75)"].map(c => (
+                          <div key={c} style={{ width:9, height:9, borderRadius:"50%", background:c }} />
+                        ))}
+                      </div>
+                      <div style={{ flex:1, background:"var(--surface3)", height:18, borderRadius:3, marginLeft:6, display:"flex", alignItems:"center", paddingLeft:8, gap:5 }}>
+                        <div style={{ width:8, height:8, borderRadius:"50%", border:"1px solid var(--border2)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                          <div style={{ width:3, height:3, borderRadius:"50%", background:"var(--lime)" }} />
+                        </div>
+                        <span style={{ fontSize:9, color:"var(--text3)", fontFamily:"'Space Grotesk',sans-serif", letterSpacing:".03em" }}>qraftdigital.com/orbit-analytics</span>
+                      </div>
+                      <div style={{ display:"flex", gap:4, alignItems:"center", marginLeft:8 }}>
+                        <div style={{ width:6, height:6, borderRadius:"50%", background:"var(--lime)", boxShadow:"0 0 6px var(--lime)", animation:"pulse 2s infinite" }} />
+                        <span style={{ fontSize:9, color:"var(--lime)", fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, letterSpacing:".06em" }}>LIVE</span>
+                      </div>
+                    </div>
+
+                    {/* Card body */}
+                    <div style={{ background:"var(--surface)", border:"1px solid var(--border2)", padding:18 }}>
+
+                      {/* Project image */}
+                      <div style={{ position:"relative", height:110, overflow:"hidden", marginBottom:14 }}>
+                        <img
+                          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=300&fit=crop"
+                          alt="Orbit Analytics"
+                          style={{ width:"100%", height:"100%", objectFit:"cover", filter:"brightness(.6) saturate(1.3)" }}
+                        />
+                        <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg, rgba(88,28,135,0.45) 0%, transparent 55%), linear-gradient(to bottom, transparent 25%, var(--surface) 100%)" }} />
+                        <div style={{ position:"absolute", bottom:12, left:14 }}>
+                          <div style={{ fontSize:9, color:"rgba(204,255,0,.65)", fontFamily:"'Space Grotesk',sans-serif", textTransform:"uppercase", letterSpacing:".12em", marginBottom:3 }}>Active Project</div>
+                          <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, fontSize:15, color:"var(--text)", lineHeight:1 }}>Orbit Analytics</div>
+                        </div>
+                        <div style={{ position:"absolute", top:10, right:10, background:"var(--lime)", padding:"3px 9px" }}>
+                          <span style={{ fontSize:8, fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, textTransform:"uppercase", letterSpacing:".1em", color:"#000" }}>Live</span>
+                        </div>
+                      </div>
+
+                      {/* 2×2 metrics */}
+                      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6, marginBottom:14 }}>
+                        {[
+                          { label:"Performance", val:"98",   note:"/100", color:"var(--lime)" },
+                          { label:"SEO Score",   val:"100",  note:"/100", color:"#4ade80" },
+                          { label:"Uptime",      val:"99.9", note:"%",    color:"#60a5fa" },
+                          { label:"Load Time",   val:"0.8",  note:"s",    color:"var(--text2)" },
+                        ].map(({ label, val, note, color }) => (
+                          <div key={label} style={{ background:"var(--surface2)", border:"1px solid var(--border)", padding:"8px 10px" }}>
+                            <div style={{ fontSize:8, color:"var(--text3)", fontFamily:"'Space Grotesk',sans-serif", textTransform:"uppercase", letterSpacing:".1em", marginBottom:4 }}>{label}</div>
+                            <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, fontSize:17, color, lineHeight:1 }}>
+                              {val}<span style={{ fontSize:9, opacity:.6, fontWeight:500 }}>{note}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Build log */}
+                      <div style={{ borderTop:"1px solid var(--border)", paddingTop:10 }}>
+                        <div style={{ fontSize:9, fontFamily:"'Space Grotesk',sans-serif", fontWeight:600, textTransform:"uppercase", letterSpacing:".12em", color:"var(--text3)", marginBottom:8 }}>Build Log</div>
+                        {[
+                          { text:"Deploy successful · production", ping:true,  time:"2s ago" },
+                          { text:"Lighthouse audit · 98/100",      ping:true,  time:"1m ago" },
+                          { text:"CDN cache · 14 edge regions",    ping:false, time:"4m ago" },
+                        ].map(({ text, ping, time }) => (
+                          <div key={text} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:7 }}>
+                            <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                              <div style={{ position:"relative", width:7, height:7, flexShrink:0 }}>
+                                <div style={{ width:7, height:7, borderRadius:"50%", background:ping?"var(--lime)":"var(--border)" }} />
+                                {ping && <div style={{ position:"absolute", inset:0, borderRadius:"50%", background:"var(--lime)", animation:"ping 1.5s infinite" }} />}
+                              </div>
+                              <span style={{ fontSize:10, color:ping?"var(--text2)":"var(--text3)" }}>{text}</span>
+                            </div>
+                            <span style={{ fontSize:9, color:"var(--text3)", fontFamily:"'Space Grotesk',sans-serif", flexShrink:0, marginLeft:8 }}>{time}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Depth shadow layer */}
+                    <div style={{ position:"absolute", bottom:-10, right:-10, left:10, top:10, background:"var(--surface2)", border:"1px solid var(--border)", zIndex:-1 }} />
+                  </div>
+                </TiltCard>
+
+                {/* Floating badge — bottom left */}
+                <motion.div
+                  animate={{ y:[0,9,0] }} transition={{ repeat:Infinity, duration:4, ease:"easeInOut", delay:1.5 }}
+                  style={{ position:"absolute", bottom:-16, left:-16, zIndex:10, background:"var(--lime)", padding:"8px 14px", display:"flex", alignItems:"center", gap:6, boxShadow:"0 12px 30px rgba(204,255,0,0.25)" }}
+                >
+                  <div style={{ width:6, height:6, borderRadius:"50%", background:"#000", flexShrink:0 }} />
+                  <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, fontSize:11, color:"#000", textTransform:"uppercase", letterSpacing:".08em" }}>140+ Projects Shipped</span>
+                </motion.div>
+              </motion.div>
+
+            </div>
           </div>
         </motion.div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          animate={{ y:[0,10,0] }} transition={{ repeat:Infinity, duration:2 }}
-          style={{ position:"absolute", bottom:32, left:"50%", transform:"translateX(-50%)", display:"flex", flexDirection:"column", alignItems:"center", gap:8, zIndex:2 }}
-        >
-          <span style={{ fontSize:10, fontFamily:"'Space Grotesk',sans-serif", letterSpacing:".12em", color:"var(--text3)", textTransform:"uppercase" }}>Scroll</span>
-          <Icon name="arrow_downward" style={{ fontSize:18, color:"var(--lime)" }} />
-        </motion.div>
       </section>
 
       {/* ═══════════════════ STATS BAR ═══════════════════ */}
-      <div ref={statsRef} style={{ background:"rgba(4,2,12,0.9)", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", padding:"56px 40px" }}>
-        <StaggerContainer className="stats-grid" style={{ maxWidth:1440, margin:"0 auto", display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:40 }}>
+      <div ref={statsRef} style={{ position:"relative", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", overflow:"hidden" }}>
+
+        {/* Full-width lime top edge */}
+        <div style={{ position:"absolute", top:0, left:0, right:0, height:1, background:"linear-gradient(90deg, transparent 0%, var(--lime) 25%, rgba(136,255,170,0.7) 50%, var(--lime) 75%, transparent 100%)", zIndex:2 }} />
+
+        {/* Background */}
+        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,6,22,0.98) 0%, rgba(6,4,14,0.95) 100%)" }} />
+
+        <StaggerContainer style={{ maxWidth:1440, margin:"0 auto", padding:"0 40px", display:"grid", gridTemplateColumns:"repeat(4,1fr)", position:"relative", zIndex:1 }}>
           {[
-            { num:c1, suffix:"+", label:"Projects Shipped" },
-            { num:c2, suffix:"%", label:"Lighthouse Avg"   },
-            { num:c3, suffix:"ms",label:"Avg API Latency"  },
-            { num:"24/7",suffix:"",label:"System Uptime"   },
-          ].map(({ num, suffix, label }) => (
+            { num:c1,     suffix:"+",  label:"Projects Shipped", sub:"End-to-end delivered",         icon:"rocket_launch", color:"var(--lime)" },
+            { num:c2,     suffix:"%",  label:"Lighthouse Avg",   sub:"Across all production builds",  icon:"speed",         color:"#86efac"     },
+            { num:c3,     suffix:"ms", label:"Avg API Latency",  sub:"P95 server response time",      icon:"bolt",          color:"#93c5fd"     },
+            { num:"24/7", suffix:"",   label:"System Uptime",    sub:"Monitored infrastructure",      icon:"shield",        color:"var(--lime)" },
+          ].map(({ num, suffix, label, sub, icon, color }, i) => (
             <StaggerItem key={label}>
-              <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(36px,5vw,64px)", fontWeight:700, color:"var(--text)", letterSpacing:"-.04em", lineHeight:1 }}>{num}{suffix}</div>
-              <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:600, textTransform:"uppercase", letterSpacing:".12em", color:"var(--text3)", marginTop:8 }}>{label}</div>
+              <motion.div
+                whileHover={{ background:"rgba(255,255,255,0.025)" }}
+                transition={{ duration:.25 }}
+                style={{ padding:"52px 36px", borderRight: i < 3 ? "1px solid var(--border)" : "none", position:"relative", height:"100%" }}
+              >
+                {/* Per-column top accent */}
+                <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:`linear-gradient(90deg, ${color} 0%, transparent 65%)`, opacity:.75 }} />
+
+                {/* Icon */}
+                <Icon name={icon} style={{ fontSize:22, color, display:"block", marginBottom:20, opacity:.9 }} />
+
+                {/* Number + suffix */}
+                <div style={{ display:"flex", alignItems:"baseline", gap:6, marginBottom:12 }}>
+                  <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(40px,4vw,64px)", fontWeight:700, letterSpacing:"-.04em", lineHeight:1, color:"var(--text)" }}>{num}</span>
+                  {suffix && <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(18px,1.8vw,26px)", fontWeight:700, letterSpacing:"-.02em", lineHeight:1, color }}>{suffix}</span>}
+                </div>
+
+                {/* Label */}
+                <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".12em", color:"var(--text)", marginBottom:8 }}>{label}</div>
+
+                {/* Context */}
+                <div style={{ fontSize:13, color:"var(--text3)", lineHeight:1.55 }}>{sub}</div>
+              </motion.div>
             </StaggerItem>
           ))}
         </StaggerContainer>
       </div>
 
-      {/* ═══════════════════ TICKER ═══════════════════ */}
-      <div style={{ borderBottom:"1px solid var(--border)", padding:"18px 0", overflow:"hidden" }}>
-        <div className="ticker-inner">
-          {["Fintech","E-Commerce","SaaS","Healthcare","Real Estate","Logistics","Fintech","E-Commerce","SaaS","Healthcare","Real Estate","Logistics"].map((t,i) => (
-            <span key={i} style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(18px,2.5vw,26px)", fontWeight:700, textTransform:"uppercase", letterSpacing:"-.02em", color:i%6===0?"var(--lime)":"var(--border)", marginRight:56 }}>{t}</span>
-          ))}
-        </div>
-      </div>
-
       {/* ═══════════════════ SERVICES ═══════════════════ */}
-      <section className="section-grad px-section" style={{ padding:"120px 40px" }}>
+      <section className="section-grad px-section" style={{ padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:64, textAlign:"center" }}>
             <SectionLabel>What We Do</SectionLabel>
             <h2 className="h2" style={{ maxWidth:600, margin:"0 auto 16px" }}>Everything your digital product needs</h2>
             <p className="body-lg" style={{ maxWidth:480, margin:"0 auto" }}>Specialized services focused on conversion, performance, and engineering excellence.</p>
           </Reveal>
-          <StaggerContainer className="services-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)" }}>
+          <StaggerContainer className="services-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"transparent" }}>
             {SERVICES.map(({ icon, title, desc }) => (
               <StaggerItem key={title}>
                 <div className="card" style={{ padding:40, border:"none", height:"100%" }}>
@@ -236,7 +410,7 @@ export default function HomePage({ navigate }) {
       </section>
 
       {/* ═══════════════════ FEATURED PROJECTS ═══════════════════ */}
-      <section className="section-photo px-section" style={{ backgroundImage:"url(https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&h=1080&fit=crop)", padding:"120px 40px" }}>
+      <section className="section-photo px-section" style={{ backgroundImage:"url(https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&h=1080&fit=crop)", padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:64 }}>
             <SectionLabel>Featured Work</SectionLabel>
@@ -244,16 +418,17 @@ export default function HomePage({ navigate }) {
           </Reveal>
 
           {/* Tab selector */}
-          <div style={{ display:"flex", gap:1, background:"var(--border)", marginBottom:2, overflowX:"auto" }}>
+          <div className="featured-tabs" style={{ display:"flex", gap:1, background:"var(--border)", marginBottom:2, overflowX:"auto" }}>
             {FEATURED.map((p, i) => (
               <motion.button
                 key={i}
+                className="featured-tab"
                 onClick={() => setActiveProject(i)}
-                style={{ flex:1, minWidth:120, padding:"14px 20px", background: activeProject===i ? "var(--lime)" : "var(--surface)", border:"none", fontFamily:"'Space Grotesk',sans-serif", fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:".06em", color: activeProject===i ? "#000" : "var(--text3)", whiteSpace:"nowrap" }}
+                style={{ flex:1, padding:"14px 28px", background: activeProject===i ? "var(--lime)" : "var(--surface)", border:"none", fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".06em", color: activeProject===i ? "#000" : "var(--text3)", whiteSpace:"nowrap" }}
                 whileHover={{ background: activeProject===i ? "var(--lime)" : "var(--surface2)" }}
                 transition={{ duration:.2 }}
               >
-                {p.num} {p.client}
+                {p.tabLabel}
               </motion.button>
             ))}
           </div>
@@ -291,23 +466,39 @@ export default function HomePage({ navigate }) {
       </section>
 
       {/* ═══════════════════ HOW WE WORK ═══════════════════ */}
-      <section className="px-section" style={{ background:"rgba(4,2,12,0.8)", borderTop:"1px solid var(--border)", padding:"120px 40px" }}>
+      <section className="px-section" style={{ background:"rgba(4,2,12,0.8)", borderTop:"1px solid var(--border)", padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:72 }}>
             <SectionLabel>How We Work</SectionLabel>
             <h2 className="h2">From zero to live.<br />Every single time.</h2>
           </Reveal>
-          <StaggerContainer className="how-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:1, background:"var(--border)" }}>
+          <StaggerContainer className="how-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:1, background:"transparent" }}>
             {HOW_WE_WORK.map(({ n, icon, title, desc }) => (
               <StaggerItem key={n}>
-                <GlassCard style={{ padding:40, height:"100%" }}>
-                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:24 }}>
-                    <Icon name={icon} style={{ fontSize:32, color:"var(--lime)" }} />
-                    <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:48, fontWeight:700, color:"var(--border)", letterSpacing:"-.04em", lineHeight:1 }}>{n}</span>
+                <GlassCard style={{ padding:0, height:"100%", position:"relative", overflow:"hidden", background:"linear-gradient(145deg, rgba(60,20,120,0.28) 0%, rgba(12,8,26,0.97) 60%, rgba(6,4,14,1) 100%)" }}>
+
+                  {/* Top lime accent */}
+                  <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:"linear-gradient(90deg, var(--lime) 0%, transparent 70%)", zIndex:2 }} />
+
+                  {/* Watermark step number */}
+                  <div style={{ position:"absolute", bottom:-16, right:-8, fontFamily:"'Space Grotesk',sans-serif", fontSize:148, fontWeight:700, letterSpacing:"-.06em", lineHeight:1, background:"linear-gradient(135deg, rgba(204,255,0,0.35) 0%, rgba(109,40,217,0.25) 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text", pointerEvents:"none", userSelect:"none", zIndex:0 }}>{n}</div>
+
+                  <div style={{ padding:40, position:"relative", zIndex:1 }}>
+
+                    {/* Icon left · Step badge right */}
+                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:28 }}>
+                      <div style={{ width:50, height:50, display:"flex", alignItems:"center", justifyContent:"center", background:"rgba(204,255,0,0.06)", border:"1px solid rgba(204,255,0,0.14)" }}>
+                        <Icon name={icon} style={{ fontSize:26, color:"var(--lime)" }} />
+                      </div>
+                      <div style={{ display:"inline-flex", alignItems:"center", gap:7, background:"rgba(204,255,0,0.07)", border:"1px solid rgba(204,255,0,0.14)", padding:"5px 12px" }}>
+                        <div style={{ width:5, height:5, borderRadius:"50%", background:"var(--lime)", flexShrink:0 }} />
+                        <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:9, fontWeight:700, textTransform:"uppercase", letterSpacing:".16em", color:"var(--lime)" }}>Step {n}</span>
+                      </div>
+                    </div>
+
+                    <h3 className="h3" style={{ marginBottom:14, fontSize:18 }}>{title}</h3>
+                    <p className="body-sm">{desc}</p>
                   </div>
-                  <div style={{ width:32, height:2, background:"var(--lime)", marginBottom:20 }} />
-                  <h3 className="h3" style={{ marginBottom:12 }}>{title}</h3>
-                  <p className="body-sm">{desc}</p>
                 </GlassCard>
               </StaggerItem>
             ))}
@@ -316,16 +507,16 @@ export default function HomePage({ navigate }) {
       </section>
 
       {/* ═══════════════════ WHY US ═══════════════════ */}
-      <section className="section-grad px-section" style={{ padding:"120px 40px" }}>
+      <section className="section-grad px-section" style={{ padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:64, display:"flex", justifyContent:"space-between", alignItems:"flex-end", flexWrap:"wrap", gap:24 }}>
             <div>
-              <SectionLabel>Why NexbeeLabs</SectionLabel>
+              <SectionLabel>Why Qraft Digital</SectionLabel>
               <h2 className="h2">Built different.<br />Delivers different.</h2>
             </div>
             <GhostBtn onClick={() => navigate("about")}>Meet the Team</GhostBtn>
           </Reveal>
-          <StaggerContainer className="why-grid" style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:1, background:"var(--border)" }}>
+          <StaggerContainer className="why-grid" style={{ display:"grid", gridTemplateColumns:"repeat(5,1fr)", gap:1, background:"transparent" }}>
             {[
               { icon:"bolt",        title:"Sub-Second Speed",   desc:"Every build is optimized for 95+ Lighthouse scores and sub-100ms interactions." },
               { icon:"ads_click",   title:"Direct Results",     desc:"Every decision is tied to a KPI. We don't ship features, we ship outcomes." },
@@ -346,15 +537,15 @@ export default function HomePage({ navigate }) {
       </section>
 
       {/* ═══════════════════ TESTIMONIALS ═══════════════════ */}
-      <section className="section-photo px-section" style={{ backgroundImage:"url(https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop)", padding:"120px 40px" }}>
+      <section className="section-photo px-section" style={{ backgroundImage:"url(https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop)", padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:64 }}>
             <SectionLabel>Client Feedback</SectionLabel>
             <h2 className="h2">Trusted by leaders.</h2>
           </Reveal>
-          <StaggerContainer className="testimonials-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)" }}>
+          <StaggerContainer className="testimonials-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"transparent" }}>
             {[
-              { q:"NexbeeLabs transformed our checkout. Conversions jumped 40% in the first month after launch.", name:"Arif Ahmed",    title:"CEO, Fintech Flow"        },
+              { q:"Qraft Digital transformed our checkout. Conversions jumped 40% in the first month after launch.", name:"Arif Ahmed",    title:"CEO, Fintech Flow"        },
               { q:"The most professional engineering team I've worked with. Direct, honest, brutally effective.", name:"Tasnim Jahan", title:"Founder, LuxeRetail"      },
               { q:"Their attention to technical depth is unmatched. Our platform finally scaled without drama.",  name:"Sadia Rahman",  title:"CTO, HealthSync"          },
               { q:"They didn't just build what we asked — they built what we actually needed. Rare.",            name:"Nusrat Karim",  title:"Director, GreenTech"      },
@@ -375,7 +566,7 @@ export default function HomePage({ navigate }) {
       </section>
 
       {/* ═══════════════════ FAQ ═══════════════════ */}
-      <section className="px-section" style={{ background:"rgba(4,2,12,0.7)", borderTop:"1px solid var(--border)", padding:"120px 40px" }}>
+      <section className="px-section" style={{ background:"rgba(4,2,12,0.7)", borderTop:"1px solid var(--border)", padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px)" }}>
         <div style={{ maxWidth:840, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:64 }}>
             <SectionLabel>FAQ</SectionLabel>

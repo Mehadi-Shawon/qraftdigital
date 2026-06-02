@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, Badge, GlassCard } from "../components/UI";
+import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, GhostBtn, Badge, GlassCard } from "../components/UI";
 
 const SERVICES = [
   { icon:"terminal",      title:"Web Design & Dev",  tags:["Next.js","TypeScript","Vercel"],    desc:"We engineer immersive web experiences prioritizing functional clarity and technical performance. Every layout is a balance of aesthetic intent and mathematical precision ensuring lightning-fast load times.", highlight:"Most Popular" },
@@ -17,33 +17,52 @@ const PROCESS = [
   { n:"04", icon:"rocket_launch",title:"Launch",      desc:"Staged deployment with load testing and Lighthouse benchmarking. Every project includes a 60-day post-launch support window." },
 ];
 
-const PRICING = [
-  { tier:"Starter",   price:"$8,000",  period:"one-time", color:"var(--border)",  items:["Landing page or MVP","Up to 5 pages","Basic SEO setup","Mobile responsive","14-day delivery","30-day support"] },
-  { tier:"Growth",    price:"$25,000", period:"one-time", color:"var(--lime)",     items:["Full web application","Custom design system","API integrations","Performance optimization","8-week delivery","60-day support"], featured:true },
-  { tier:"Enterprise",price:"Custom",  period:"per scope",color:"var(--surface3)", items:["Unlimited scope","Dedicated team","SLA guarantees","Infrastructure design","Custom timeline","12-month support"] },
+const GUARANTEES = [
+  { icon:"groups",         title:"Senior Engineers Only",      desc:"No juniors, no hand-offs. You work directly with specialists on every decision." },
+  { icon:"task_alt",       title:"Fixed Scope, No Surprises",  desc:"Every project is scoped before a single line of code. No creep, no hidden costs." },
+  { icon:"play_circle",    title:"Weekly Live Demos",          desc:"Real builds every sprint — not slides, not status calls. You see real progress." },
+  { icon:"speed",          title:"Performance Benchmarked",    desc:"Every delivery is Lighthouse-audited and load-tested before it reaches production." },
+  { icon:"support_agent",  title:"60-Day Post-Launch Support", desc:"We stay with you for two months after launch to fix, tune, and optimise." },
+  { icon:"lock",           title:"Full IP Ownership",          desc:"Every asset, codebase, and design file belongs 100% to you at project handover." },
 ];
 
 export default function ServicesPage({ navigate }) {
   return (
     <div>
       {/* ═══ HERO ═══ */}
-      <section style={{ position:"relative", overflow:"hidden", padding:"100px 40px 80px" }} className="px-section">
-        <div style={{ position:"absolute", top:-150, left:-150, width:500, height:500, borderRadius:"50%", background:"radial-gradient(circle,rgba(109,40,217,0.2) 0%,transparent 70%)", pointerEvents:"none" }} />
-        <div style={{ maxWidth:1440, margin:"0 auto", position:"relative", zIndex:1 }}>
+      <section style={{ position:"relative", overflow:"hidden", minHeight:"68vh", display:"flex", alignItems:"center" }}>
+
+        {/* Background image */}
+        <div style={{ position:"absolute", inset:0, backgroundImage:"url(https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&h=900&fit=crop)", backgroundSize:"cover", backgroundPosition:"center top", zIndex:0 }} />
+
+        {/* Layered dark overlay */}
+        <div style={{ position:"absolute", inset:0, background:"linear-gradient(135deg, rgba(6,4,14,0.94) 0%, rgba(30,10,70,0.82) 50%, rgba(6,4,14,0.9) 100%)", zIndex:1 }} />
+
+        {/* Subtle grid texture */}
+        <div style={{ position:"absolute", inset:0, backgroundImage:"linear-gradient(rgba(204,255,0,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(204,255,0,.015) 1px,transparent 1px)", backgroundSize:"80px 80px", zIndex:2, pointerEvents:"none" }} />
+
+        {/* Bottom fade */}
+        <div style={{ position:"absolute", bottom:0, left:0, right:0, height:120, background:"linear-gradient(to bottom, transparent, var(--bg))", zIndex:3, pointerEvents:"none" }} />
+
+        <div className="px-section" style={{ maxWidth:1440, margin:"0 auto", position:"relative", zIndex:4, padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px) clamp(56px,8vw,100px)", width:"100%" }}>
           <Reveal>
             <SectionLabel>Services</SectionLabel>
-            <h1 className="h1" style={{ marginBottom:24 }}>What we<br />build.</h1>
-            <p className="body-lg" style={{ maxWidth:560 }}>
+            <h1 className="h1" style={{ marginBottom:24, maxWidth:680 }}>What we<br />build for you.</h1>
+            <p className="body-lg" style={{ maxWidth:520, marginBottom:44 }}>
               High-performance digital products engineered for precision and scale. We architect competitive advantages, not just features.
             </p>
+            <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
+              <LimeBtn onClick={() => navigate("contact")}>Start a Project <Icon name="arrow_forward" style={{ fontSize:17 }} /></LimeBtn>
+              <GhostBtn onClick={() => navigate("work")}>View Our Work</GhostBtn>
+            </div>
           </Reveal>
         </div>
       </section>
 
       {/* ═══ SERVICE CARDS ═══ */}
-      <section className="section-grad px-section" style={{ padding:"0 40px 100px" }}>
+      <section className="section-grad px-section" style={{ padding:"0 clamp(20px,4vw,40px) clamp(56px,8vw,100px)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
-          <StaggerContainer className="services-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)" }}>
+          <StaggerContainer className="services-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"transparent" }}>
             {SERVICES.map(({ icon, title, tags, desc, highlight }) => (
               <StaggerItem key={title}>
                 <div className="card" style={{ padding:48, border:"none", height:"100%", display:"flex", flexDirection:"column", position:"relative" }}>
@@ -66,7 +85,7 @@ export default function ServicesPage({ navigate }) {
       </section>
 
       {/* ═══ PROCESS ═══ */}
-      <section className="section-photo px-section" style={{ backgroundImage:"url(https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&h=900&fit=crop)", padding:"100px 40px", borderTop:"1px solid var(--border)" }}>
+      <section className="section-photo px-section" style={{ backgroundImage:"url(https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&h=900&fit=crop)", padding:"clamp(56px,8vw,100px) clamp(20px,4vw,40px)", borderTop:"1px solid var(--border)" }}>
         <div style={{ maxWidth:1440, margin:"0 auto" }}>
           <Reveal style={{ marginBottom:64 }}>
             <SectionLabel>Our Process</SectionLabel>
@@ -90,42 +109,49 @@ export default function ServicesPage({ navigate }) {
         </div>
       </section>
 
-      {/* ═══ PRICING ═══ */}
-      <section className="px-section" style={{ background:"rgba(4,2,12,0.85)", borderTop:"1px solid var(--border)", padding:"100px 40px" }}>
-        <div style={{ maxWidth:1200, margin:"0 auto" }}>
-          <Reveal style={{ marginBottom:64, textAlign:"center" }}>
-            <SectionLabel>Investment</SectionLabel>
-            <h2 className="h2">Transparent pricing.</h2>
-            <p className="body-lg" style={{ maxWidth:480, margin:"16px auto 0" }}>No retainers, no lock-ins. Scoped engagements with a clear deliverable and a fixed price.</p>
+      {/* ═══ WHAT'S ALWAYS INCLUDED ═══ */}
+      <section className="px-section" style={{ background:"rgba(4,2,12,0.85)", borderTop:"1px solid var(--border)", padding:"clamp(56px,8vw,100px) clamp(20px,4vw,40px)" }}>
+        <div style={{ maxWidth:1440, margin:"0 auto" }}>
+          <Reveal style={{ marginBottom:72, display:"flex", justifyContent:"space-between", alignItems:"flex-end", flexWrap:"wrap", gap:24 }}>
+            <div>
+              <SectionLabel>Every Engagement</SectionLabel>
+              <h2 className="h2">What you always get.</h2>
+              <p className="body-lg" style={{ maxWidth:480, marginTop:16 }}>
+                Every project — regardless of scope — is held to the same uncompromising standard.
+              </p>
+            </div>
+            <LimeBtn onClick={() => navigate("contact")}>
+              Get a Custom Quote <Icon name="arrow_forward" style={{ fontSize:17 }} />
+            </LimeBtn>
           </Reveal>
-          <StaggerContainer style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"var(--border)" }} className="process-grid">
-            {PRICING.map(({ tier, price, period, items, featured }) => (
-              <StaggerItem key={tier}>
-                <div
-                  className="card"
-                  style={{ padding:48, border:"none", height:"100%", display:"flex", flexDirection:"column", background: featured?"var(--surface2)":"var(--surface)", position:"relative" }}
+
+          <StaggerContainer style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"transparent" }} className="process-grid">
+            {GUARANTEES.map(({ icon, title, desc }) => (
+              <StaggerItem key={title}>
+                <motion.div
+                  whileHover={{ background:"rgba(204,255,0,0.04)" }}
+                  transition={{ duration:.25 }}
+                  style={{ padding:"44px 40px", border:"1px solid var(--border)", height:"100%", display:"flex", flexDirection:"column", gap:20, position:"relative", overflow:"hidden" }}
                 >
-                  {featured && <div style={{ position:"absolute", top:0, left:0, right:0, height:3, background:"var(--lime)" }} />}
-                  <p style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:".14em", color: featured?"var(--lime)":"var(--text3)", marginBottom:16 }}>{tier}</p>
-                  <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(32px,4vw,48px)", fontWeight:700, color:"var(--text)", letterSpacing:"-.04em", lineHeight:1, marginBottom:4 }}>{price}</div>
-                  <p style={{ fontSize:12, color:"var(--text3)", textTransform:"uppercase", letterSpacing:".08em", marginBottom:32 }}>{period}</p>
-                  <ul style={{ listStyle:"none", display:"flex", flexDirection:"column", gap:12, flexGrow:1, marginBottom:32 }}>
-                    {items.map(item => (
-                      <li key={item} style={{ display:"flex", gap:10, alignItems:"flex-start" }}>
-                        <Icon name="check_circle" style={{ fontSize:16, color:"var(--lime)", marginTop:1, flexShrink:0 }} />
-                        <span className="body-sm" style={{ fontSize:14 }}>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <motion.button
-                    className="lime-btn"
-                    style={{ width:"100%", justifyContent:"center", background: featured?"var(--lime)":"transparent", color: featured?"#000":"var(--text)", border: featured?"none":"1px solid var(--border2)" }}
-                    onClick={() => navigate("contact")}
-                    whileHover={{ scale:1.03 }} whileTap={{ scale:.97 }}
-                  >
-                    Get Started <Icon name="arrow_forward" style={{ fontSize:17 }} />
-                  </motion.button>
-                </div>
+                  {/* Top accent */}
+                  <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:"linear-gradient(90deg, var(--lime) 0%, transparent 60%)" }} />
+
+                  {/* Icon */}
+                  <div style={{ width:48, height:48, display:"flex", alignItems:"center", justifyContent:"center", background:"rgba(204,255,0,0.06)", border:"1px solid rgba(204,255,0,0.14)", flexShrink:0 }}>
+                    <Icon name={icon} style={{ fontSize:24, color:"var(--lime)" }} />
+                  </div>
+
+                  <div>
+                    <h3 style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, fontSize:17, color:"var(--text)", marginBottom:10, letterSpacing:"-.02em" }}>{title}</h3>
+                    <p className="body-sm" style={{ lineHeight:1.7 }}>{desc}</p>
+                  </div>
+
+                  {/* Check mark */}
+                  <div style={{ marginTop:"auto", display:"flex", alignItems:"center", gap:8 }}>
+                    <Icon name="check_circle" style={{ fontSize:16, color:"var(--lime)" }} />
+                    <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:".12em", color:"var(--lime)" }}>Included</span>
+                  </div>
+                </motion.div>
               </StaggerItem>
             ))}
           </StaggerContainer>
@@ -133,7 +159,7 @@ export default function ServicesPage({ navigate }) {
       </section>
 
       {/* ═══ CTA ═══ */}
-      <section className="px-section" style={{ maxWidth:1440, margin:"0 auto", padding:"100px 40px" }}>
+      <section className="px-section" style={{ maxWidth:1440, margin:"0 auto", padding:"clamp(56px,8vw,100px) clamp(20px,4vw,40px)" }}>
         <Reveal>
           <motion.div
             style={{ background:"var(--lime)", padding:"64px clamp(32px,6vw,80px)", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:32, position:"relative", overflow:"hidden" }}

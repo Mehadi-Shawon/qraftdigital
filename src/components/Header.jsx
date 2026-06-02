@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "../context/ThemeContext";
+import { motion } from "framer-motion";
 import { Icon } from "./UI";
+import ProjectModal from "./ProjectModal";
 
 export default function Header({ page, navigate, setMobileOpen }) {
-  const [scrolled, setScrolled] = useState(false);
-  const { dark, toggle } = useTheme();
-  const links = ["home","services","work","about","contact"];
+  const [scrolled, setScrolled]     = useState(false);
+  const [modalOpen, setModalOpen]   = useState(false);
+  const links = [
+    { page:"home",     label:"Home"    },
+    { page:"services", label:"Services"},
+    { page:"work",     label:"Work"    },
+    { page:"about",    label:"About"   },
+    { page:"contact",  label:"Contact" },
+  ];
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
@@ -15,6 +21,7 @@ export default function Header({ page, navigate, setMobileOpen }) {
   }, []);
 
   return (
+    <>
     <motion.header
       initial={{ y:-80, opacity:0 }}
       animate={{ y:0, opacity:1 }}
@@ -27,7 +34,7 @@ export default function Header({ page, navigate, setMobileOpen }) {
         transition:"background .4s ease, border-color .4s ease",
       }}
     >
-      <div style={{ maxWidth:1440, margin:"0 auto", padding:"0 40px", height:76, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+      <div style={{ maxWidth:1440, margin:"0 auto", padding:"0 clamp(16px,4vw,40px)", height:76, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         {/* Logo */}
         <motion.button
           onClick={() => navigate("home")}
@@ -35,45 +42,22 @@ export default function Header({ page, navigate, setMobileOpen }) {
           whileHover={{ scale:1.04 }} whileTap={{ scale:.96 }}
           transition={{ type:"spring", stiffness:400, damping:20 }}
         >
-          Nexbee<span style={{ color:"var(--lime)" }}>Labs</span>
+          Qraft<span style={{ color:"var(--lime)" }}>Digital</span>
         </motion.button>
 
         {/* Desktop nav */}
         <nav className="hide-mobile" style={{ display:"flex", gap:32 }}>
-          {links.map(l => (
-            <button key={l} className={`nav-link ${page===l?"active":""}`} onClick={() => navigate(l)}>{l}</button>
+          {links.map(({ page: p, label }) => (
+            <button key={p} className={`nav-link ${page===p?"active":""}`} onClick={() => navigate(p)}>{label}</button>
           ))}
         </nav>
 
         <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-          {/* Theme toggle */}
-          <motion.button
-            onClick={toggle}
-            className="icon-btn"
-            whileHover={{ scale:1.1, borderColor:"var(--lime)" }}
-            whileTap={{ scale:.9, rotate:15 }}
-            transition={{ type:"spring", stiffness:400, damping:15 }}
-            title={dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          >
-            <AnimatePresence mode="wait">
-              <motion.span
-                key={dark ? "moon" : "sun"}
-                initial={{ rotate:-90, opacity:0, scale:.5 }}
-                animate={{ rotate:0, opacity:1, scale:1 }}
-                exit={{ rotate:90, opacity:0, scale:.5 }}
-                transition={{ duration:.3 }}
-                style={{ display:"flex" }}
-              >
-                <Icon name={dark ? "light_mode" : "dark_mode"} style={{ fontSize:20 }} />
-              </motion.span>
-            </AnimatePresence>
-          </motion.button>
-
           {/* CTA */}
           <motion.button
             className="lime-btn nav-cta hide-mobile"
             style={{ padding:"10px 22px", fontSize:12 }}
-            onClick={() => navigate("contact")}
+            onClick={() => setModalOpen(true)}
             whileHover={{ scale:1.04, y:-1 }} whileTap={{ scale:.96 }}
             transition={{ type:"spring", stiffness:400, damping:20 }}
           >
@@ -92,5 +76,8 @@ export default function Header({ page, navigate, setMobileOpen }) {
         </div>
       </div>
     </motion.header>
+
+    <ProjectModal open={modalOpen} onClose={() => setModalOpen(false)} />
+    </>
   );
 }
