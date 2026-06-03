@@ -204,10 +204,6 @@ export default function Footer({ navigate }) {
                 )}
               </>
             ))}
-            <span style={{ color:"rgba(255,255,255,0.1)", fontSize:11, marginLeft:6 }}>·</span>
-            <p style={{ color:"rgba(255,255,255,0.2)", fontSize:11, fontFamily:"'Space Grotesk',sans-serif", letterSpacing:".08em", marginLeft:6 }}>
-              BUILT FOR PERFORMANCE.
-            </p>
           </div>
         </div>
 
