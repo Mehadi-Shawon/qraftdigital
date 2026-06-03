@@ -519,34 +519,54 @@ export default function HomePage({ navigate }) {
             <SectionLabel>How We Work</SectionLabel>
             <h2 className="h2">From zero to live.<br />Every single time.</h2>
           </Reveal>
-          <StaggerContainer className="how-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:1, background:"transparent" }}>
-            {HOW_WE_WORK.map(({ n, icon, title, desc }) => (
-              <StaggerItem key={n}>
-                <GlassCard style={{ padding:0, height:"100%", position:"relative", overflow:"hidden", background:"linear-gradient(145deg, rgba(60,20,120,0.28) 0%, rgba(12,8,26,0.97) 60%, rgba(6,4,14,1) 100%)" }}>
+          <StaggerContainer className="how-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, background:"transparent" }}>
+            {HOW_WE_WORK.map(({ n, icon, title, desc }, idx) => (
+              <StaggerItem key={n} style={{ height:"100%" }}>
+                <motion.div
+                  whileHover={{ y:-4, boxShadow:"-4px 0 32px rgba(204,255,0,0.22), 0 24px 48px rgba(0,0,0,0.45)" }}
+                  transition={{ type:"spring", stiffness:300, damping:24 }}
+                  style={{
+                    height:"100%", display:"flex", flexDirection:"column", position:"relative", overflow:"hidden",
+                    background:"linear-gradient(145deg, rgba(20,10,50,0.72) 0%, rgba(10,6,22,0.96) 100%)",
+                    border:"1px solid rgba(255,255,255,0.07)",
+                    borderLeft:"3px solid var(--lime)",
+                    boxShadow:"-2px 0 20px rgba(204,255,0,0.12), 0 12px 32px rgba(0,0,0,0.35)",
+                    backdropFilter:"blur(24px)", WebkitBackdropFilter:"blur(24px)",
+                  }}
+                >
+                  {/* Subtle purple orb top-right */}
+                  <div style={{ position:"absolute", top:-40, right:-40, width:120, height:120, borderRadius:"50%", background:"radial-gradient(circle, rgba(109,40,217,0.18) 0%, transparent 70%)", pointerEvents:"none" }} />
 
-                  {/* Top lime accent */}
-                  <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:"linear-gradient(90deg, var(--lime) 0%, transparent 70%)", zIndex:2 }} />
+                  <div style={{ padding:"28px 28px 24px", display:"flex", flexDirection:"column", flex:1, position:"relative", zIndex:1 }}>
 
-                  {/* Watermark step number */}
-                  <div style={{ position:"absolute", bottom:-16, right:-8, fontFamily:"'Space Grotesk',sans-serif", fontSize:148, fontWeight:700, letterSpacing:"-.06em", lineHeight:1, background:"linear-gradient(135deg, rgba(204,255,0,0.35) 0%, rgba(109,40,217,0.25) 100%)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent", backgroundClip:"text", pointerEvents:"none", userSelect:"none", zIndex:0 }}>{n}</div>
-
-                  <div style={{ padding:40, position:"relative", zIndex:1 }}>
-
-                    {/* Icon left · Step badge right */}
-                    <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", marginBottom:28 }}>
-                      <div style={{ width:50, height:50, display:"flex", alignItems:"center", justifyContent:"center", background:"rgba(204,255,0,0.06)", border:"1px solid rgba(204,255,0,0.14)" }}>
-                        <Icon name={icon} style={{ fontSize:26, color:"var(--lime)" }} />
-                      </div>
-                      <div style={{ display:"inline-flex", alignItems:"center", gap:7, background:"rgba(204,255,0,0.07)", border:"1px solid rgba(204,255,0,0.14)", padding:"5px 12px" }}>
-                        <div style={{ width:5, height:5, borderRadius:"50%", background:"var(--lime)", flexShrink:0 }} />
-                        <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:9, fontWeight:700, textTransform:"uppercase", letterSpacing:".16em", color:"var(--lime)" }}>Step {n}</span>
-                      </div>
+                    {/* Step number — top right */}
+                    <div style={{ position:"absolute", top:24, right:24, fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:700, letterSpacing:".14em", color:"rgba(204,255,0,0.5)", textTransform:"uppercase" }}>
+                      {n} / 04
                     </div>
 
-                    <h3 className="h3" style={{ marginBottom:14, fontSize:18 }}>{title}</h3>
-                    <p className="body-sm">{desc}</p>
+                    {/* Icon */}
+                    <div style={{ width:44, height:44, display:"flex", alignItems:"center", justifyContent:"center", background:"rgba(204,255,0,0.07)", border:"1px solid rgba(204,255,0,0.18)", marginBottom:24, flexShrink:0 }}>
+                      <Icon name={icon} style={{ fontSize:22, color:"var(--lime)" }} />
+                    </div>
+
+                    {/* Title + desc */}
+                    <h3 style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:17, fontWeight:700, letterSpacing:"-.02em", color:"var(--text)", marginBottom:10, lineHeight:1.3 }}>{title}</h3>
+                    <p style={{ fontSize:13, color:"var(--text2)", lineHeight:1.7, flex:1 }}>{desc}</p>
+
+                    {/* Progress dots */}
+                    <div style={{ display:"flex", alignItems:"center", gap:6, marginTop:24, paddingTop:20, borderTop:"1px solid rgba(255,255,255,0.05)" }}>
+                      {HOW_WE_WORK.map((_, di) => (
+                        <div key={di} style={{
+                          width: di === idx ? 20 : 6,
+                          height:6, borderRadius:3,
+                          background: di === idx ? "var(--lime)" : "rgba(255,255,255,0.12)",
+                          transition:"width .3s ease, background .3s ease",
+                          flexShrink:0,
+                        }} />
+                      ))}
+                    </div>
                   </div>
-                </GlassCard>
+                </motion.div>
               </StaggerItem>
             ))}
           </StaggerContainer>

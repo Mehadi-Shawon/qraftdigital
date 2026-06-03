@@ -74,7 +74,7 @@ export default function WorkPage({ navigate }) {
       </section>
 
       {/* â•â•â• FILTERS â•â•â• */}
-      <div style={{ position:"relative", borderBottom:"1px solid var(--border)" }}>
+      <div style={{ position:"relative" }}>
         <div
           ref={filterRef}
           className="px-section filter-bar"

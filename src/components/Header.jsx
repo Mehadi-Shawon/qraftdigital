@@ -61,7 +61,7 @@ export default function Header({ page, navigate, setMobileOpen }) {
             whileHover={{ scale:1.04, y:-1 }} whileTap={{ scale:.96 }}
             transition={{ type:"spring", stiffness:400, damping:20 }}
           >
-            Start a Project
+            Let's Talk
           </motion.button>
 
           {/* Mobile CTA — left of hamburger */}

@@ -61,8 +61,10 @@ export default function ProjectModal({ open, onClose }) {
           {/* Backdrop */}
           <motion.div
             key="backdrop"
-            initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }}
-            transition={{ duration:.3 }}
+            initial={{ opacity:0 }}
+            animate={{ opacity:1 }}
+            exit={{ opacity:0 }}
+            transition={{ duration:.45, ease:"easeOut" }}
             onClick={handleClose}
             style={{ position:"fixed", inset:0, background:"rgba(4,2,12,0.75)", backdropFilter:"blur(20px)", WebkitBackdropFilter:"blur(20px)", zIndex:998 }}
           />
@@ -70,11 +72,11 @@ export default function ProjectModal({ open, onClose }) {
           {/* Modal */}
           <motion.div
             key="modal"
-            initial={{ opacity:0, y:40, scale:.96 }}
-            animate={{ opacity:1, y:0, scale:1 }}
-            exit={{ opacity:0, y:24, scale:.97 }}
-            transition={{ duration:.4, ease:[.16,1,.3,1] }}
-            style={{ position:"fixed", inset:0, zIndex:999, display:"flex", alignItems:"center", justifyContent:"center", padding:"20px", pointerEvents:"none" }}
+            initial={{ opacity:0, scale:.93, y:20 }}
+            animate={{ opacity:1, scale:1,   y:0  }}
+            exit={{   opacity:0, scale:.96,  y:-10 }}
+            transition={{ type:"spring", stiffness:300, damping:28, mass:0.75 }}
+            style={{ position:"fixed", inset:0, zIndex:999, display:"flex", alignItems:"center", justifyContent:"center", padding:"20px", pointerEvents:"none", willChange:"transform, opacity", backfaceVisibility:"hidden" }}
           >
             <div style={{ width:"min(460px, 100%)", pointerEvents:"all", position:"relative" }}>
 
