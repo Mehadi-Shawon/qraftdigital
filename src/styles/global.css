@@ -313,6 +313,7 @@ img { max-width: 100%; display: block; }
 .featured-tabs                        { scrollbar-width:none; }
 .featured-tabs::-webkit-scrollbar     { display:none; }
 .thumb-scrollbar                      { display:none; }
+.contact-form-heading                 { display:none; }
 
 .featured-tab                         { position:relative; }
 .featured-tab::after {
@@ -521,6 +522,7 @@ img { max-width: 100%; display: block; }
   /* Featured tabs */
   .featured-tabs { overflow-x: auto !important; }
   .thumb-scrollbar { display: block !important; }
+  .contact-form-heading { display: block !important; }
 
   /* Lime / ghost buttons full width on small screens */
   .hero-btns .lime-btn,

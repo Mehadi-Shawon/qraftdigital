@@ -360,6 +360,16 @@ export default function ContactPage({ navigate }) {
           {/* ── Right: Premium multi-step form ── */}
           <Reveal delay={0.15}>
             <>
+            {/* Form heading — mobile only */}
+            <div className="contact-form-heading" style={{ marginBottom:32 }}>
+              <SectionLabel>Send a Message</SectionLabel>
+              <h2 className="h2" style={{ fontSize:"clamp(26px,3vw,38px)", marginBottom:12, letterSpacing:"-.03em" }}>
+                Tell us about<br />your project.
+              </h2>
+              <p style={{ fontSize:14, color:"var(--text2)", lineHeight:1.75, maxWidth:460 }}>
+                Fill in the brief below and we'll come back to you within 24 hours with a tailored plan — no fluff, no obligation.
+              </p>
+            </div>
             {sent ? (
               /* Success state */
               <motion.div
