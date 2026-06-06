@@ -87,6 +87,45 @@ const SERVICES = [
   { icon:"terminal",      title:"Custom Software",  desc:"Bespoke SaaS platforms, APIs, and internal tools built around your exact operational needs." },
 ];
 
+const SI = (slug) => `https://cdn.simpleicons.org/${slug}/ffffff`;
+
+const TECH_STACK = [
+  { category:"Frontend", color:"rgba(96,165,250,0.12)", border:"rgba(96,165,250,0.25)", dot:"#60a5fa", techs:[
+    { name:"React",        logo: SI("react")        },
+    { name:"Next.js",      logo: SI("nextdotjs")    },
+    { name:"TypeScript",   logo: SI("typescript")   },
+    { name:"Tailwind CSS", logo: SI("tailwindcss")  },
+    { name:"Framer",       logo: SI("framer")       },
+    { name:"Vue.js",       logo: SI("vuedotjs")     },
+  ]},
+  { category:"Backend", color:"rgba(74,222,128,0.10)", border:"rgba(74,222,128,0.22)", dot:"#4ade80", techs:[
+    { name:"Node.js",      logo: SI("nodedotjs")    },
+    { name:"Python",       logo: SI("python")       },
+    { name:"PostgreSQL",   logo: SI("postgresql")   },
+    { name:"Redis",        logo: SI("redis")        },
+    { name:"GraphQL",      logo: SI("graphql")      },
+    { name:"Express.js",   logo: SI("express")      },
+  ]},
+  { category:"DevOps", color:"rgba(251,146,60,0.10)", border:"rgba(251,146,60,0.22)", dot:"#fb923c", techs:[
+    { name:"AWS",          logo: SI("amazonwebservices") },
+    { name:"Docker",       logo: SI("docker")       },
+    { name:"Vercel",       logo: SI("vercel")       },
+    { name:"GitHub Actions",logo:SI("githubactions") },
+    { name:"Nginx",        logo: SI("nginx")        },
+    { name:"Linux",        logo: SI("linux")        },
+  ]},
+  { category:"Design", color:"rgba(232,121,249,0.10)", border:"rgba(232,121,249,0.22)", dot:"#e879f9", techs:[
+    { name:"Figma",        logo: SI("figma")        },
+    { name:"Photoshop",    logo: SI("adobephotoshop")   },
+    { name:"Illustrator",  logo: SI("adobeillustrator") },
+    { name:"Storybook",    logo: SI("storybook")    },
+    { name:"Webflow",      logo: SI("webflow")      },
+    { name:"Shopify",      logo: SI("shopify")      },
+    { name:"WordPress",    logo: SI("wordpress")    },
+    { name:"Elementor",    logo: SI("elementor")    },
+  ]},
+];
+
 const HOW_WE_WORK = [
   { n:"01", icon:"search",     title:"Discovery",     desc:"We immerse ourselves in your business: goals, audience, competitors, and KPIs. No guesswork — pure clarity before a single line of code." },
   { n:"02", icon:"architecture",title:"Architecture", desc:"Technical blueprint, design system, and database schema. We build the foundation so everything above it scales without friction." },
@@ -597,6 +636,66 @@ export default function HomePage({ navigate }) {
                   <h4 className="h3" style={{ fontSize:16, marginBottom:10 }}>{title}</h4>
                   <p className="body-sm" style={{ fontSize:13 }}>{desc}</p>
                 </div>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* ═══════════════════ TECH STACK ═══════════════════ */}
+      <section className="px-section" style={{ background:"rgba(6,4,16,0.9)", borderTop:"1px solid var(--border)", padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px)" }}>
+        <div style={{ maxWidth:1440, margin:"0 auto" }}>
+          <Reveal style={{ marginBottom:64, display:"flex", justifyContent:"space-between", alignItems:"flex-end", flexWrap:"wrap", gap:24 }}>
+            <div>
+              <SectionLabel>Technology Stack</SectionLabel>
+              <h2 className="h2">Tools we master.<br />Outcomes you keep.</h2>
+            </div>
+            <p className="body-sm" style={{ maxWidth:380, color:"var(--text2)", lineHeight:1.8 }}>
+              We work exclusively with proven, battle-tested technologies — no trend-chasing, just the right tool for each layer of your product.
+            </p>
+          </Reveal>
+
+          <StaggerContainer className="tech-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16 }}>
+            {TECH_STACK.map(({ category, color, border, dot, techs }) => (
+              <StaggerItem key={category}>
+                <motion.div
+                  whileHover={{ y:-4, boxShadow:`0 24px 48px rgba(0,0,0,0.4)` }}
+                  transition={{ type:"spring", stiffness:300, damping:24 }}
+                  style={{ background:color, border:`1px solid ${border}`, padding:"28px 24px", height:"100%", display:"flex", flexDirection:"column" }}
+                >
+                  {/* Category label */}
+                  <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:20 }}>
+                    <div style={{ width:8, height:8, borderRadius:"50%", background:dot, flexShrink:0, boxShadow:`0 0 8px ${dot}` }} />
+                    <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:10, fontWeight:700, textTransform:"uppercase", letterSpacing:".16em", color:dot }}>{category}</span>
+                  </div>
+
+                  {/* Tech pills */}
+                  <div style={{ display:"flex", flexWrap:"wrap", gap:8 }}>
+                    {techs.map(({ name, logo }) => (
+                      <motion.div
+                        key={name}
+                        whileHover={{ y:-2, background:"rgba(255,255,255,0.10)", borderColor: dot, boxShadow:`0 4px 16px ${dot}33` }}
+                        whileTap={{ scale:.95 }}
+                        transition={{ duration:.15 }}
+                        style={{
+                          display:"flex", alignItems:"center", gap:7,
+                          fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:600,
+                          color:"var(--text)", background:"rgba(255,255,255,0.05)",
+                          border:"1px solid rgba(255,255,255,0.08)",
+                          padding:"6px 10px", whiteSpace:"nowrap", cursor:"default",
+                        }}
+                      >
+                        <motion.img
+                          src={logo} alt={name} width={14} height={14}
+                          style={{ objectFit:"contain", flexShrink:0 }}
+                          whileHover={{ opacity:1 }}
+                          initial={{ opacity:0.75 }}
+                        />
+                        {name}
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
               </StaggerItem>
             ))}
           </StaggerContainer>
