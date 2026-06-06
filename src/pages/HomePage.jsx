@@ -650,7 +650,7 @@ export default function HomePage({ navigate }) {
               <SectionLabel>Technology Stack</SectionLabel>
               <h2 className="h2">Tools we master.<br />Outcomes you keep.</h2>
             </div>
-            <p className="body-sm" style={{ maxWidth:380, color:"var(--text2)", lineHeight:1.8 }}>
+            <p className="body-sm" style={{ maxWidth:380, color:"var(--text2)", lineHeight:1.8, flexShrink:1 }}>
               We work exclusively with proven, battle-tested technologies — no trend-chasing, just the right tool for each layer of your product.
             </p>
           </Reveal>
@@ -682,7 +682,7 @@ export default function HomePage({ navigate }) {
                           fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:600,
                           color:"var(--text)", background:"rgba(255,255,255,0.05)",
                           border:"1px solid rgba(255,255,255,0.08)",
-                          padding:"6px 10px", whiteSpace:"nowrap", cursor:"default",
+                          padding:"6px 10px", cursor:"default",
                         }}
                       >
                         <motion.img

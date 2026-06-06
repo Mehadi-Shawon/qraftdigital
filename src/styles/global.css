@@ -512,6 +512,8 @@ img { max-width: 100%; display: block; }
   .section-photo { background-attachment: scroll !important; }
   .nav-cta       { display: none !important; }
 
+  .tech-grid         { grid-template-columns: 1fr !important; }
+
   /* Work cards — reduce height on mobile */
   .work-card     { height: 300px !important; }
 
