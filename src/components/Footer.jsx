@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { Reveal } from "./UI";
 
@@ -58,7 +59,7 @@ const COLS = [
   {
     title: "Contact",
     items: [
-      ["hello@qraftdigital.com", "mailto"],
+      ["write.shawon@gmail.com", "mailto"],
       ["Dhaka, Bangladesh",       null   ],
     ],
   },
@@ -111,7 +112,12 @@ export default function Footer({ navigate }) {
               </div>
 
               <p style={{ color:"var(--text2)", fontSize:13, lineHeight:1.8, maxWidth:280, marginBottom:28 }}>
-                A premier digital engineering agency focused on performance, precision, and direct results. Based in Dhaka, operating globally.
+                We design and develop websites, automate your workflows with AI, and provide ongoing support. Based in Dhaka{" "}
+                <svg viewBox="0 0 20 12" width="16" height="10" style={{ display:"inline-block", verticalAlign:"middle", borderRadius:2 }}>
+                  <rect width="20" height="12" fill="#006a4e" />
+                  <circle cx="9" cy="6" r="4" fill="#f42a41" />
+                </svg>
+                , operating globally.
               </p>
 
               {/* Social icons */}
@@ -189,9 +195,8 @@ export default function Footer({ navigate }) {
 
           <div style={{ display:"flex", alignItems:"center", gap:6 }}>
             {LEGAL_LINKS.map(({ label, page }, i) => (
-              <>
+              <Fragment key={label}>
                 <motion.button
-                  key={label}
                   onClick={() => navigate(page)}
                   style={{ background:"none", border:"none", color:"rgba(255,255,255,0.2)", fontSize:11, fontFamily:"'Space Grotesk',sans-serif", letterSpacing:".08em", textTransform:"uppercase", padding:0, cursor:"pointer" }}
                   whileHover={{ color:"var(--lime)" }}
@@ -202,7 +207,7 @@ export default function Footer({ navigate }) {
                 {i < LEGAL_LINKS.length - 1 && (
                   <span style={{ color:"rgba(255,255,255,0.1)", fontSize:11 }}>·</span>
                 )}
-              </>
+              </Fragment>
             ))}
           </div>
         </div>

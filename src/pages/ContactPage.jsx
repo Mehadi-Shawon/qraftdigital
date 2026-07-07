@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, GlassCard, LimeBtn, GhostBtn } from "../components/UI";
+import { useSEO } from "../hooks";
 
 const FORMSPREE_CONTACT = "xdajqjlb";
 const FORMSPREE_BOOKING = "mgoqgqno";
@@ -35,6 +36,11 @@ const LineField = ({ label, children }) => (
 const TIME_SLOTS = ["9:00 AM","10:00 AM","11:00 AM","2:00 PM","3:00 PM","4:00 PM"];
 
 export default function ContactPage({ navigate }) {
+  useSEO({
+    title: "Contact Us",
+    description: "Get in touch with Qraft Digital for website design, AI automation, or maintenance. Based in Dhaka, we respond within 24 hours.",
+    path: "/contact",
+  });
   const [step, setStep]         = useState(1);
   const [dir,  setDir]          = useState(1);
   const [form, setForm]         = useState({ name:"", email:"", company:"", services:[], message:"" });
@@ -128,7 +134,7 @@ export default function ContactPage({ navigate }) {
 
               {/* Trust signals */}
               <div style={{ display:"flex", gap:24, marginTop:28, flexWrap:"wrap" }}>
-                {[["bolt","Responds in 24h"],["shield","No commitment"],["language","20+ countries"]].map(([icon, label]) => (
+                {[["bolt","Responds in 24h"],["shield","No commitment"],["language","Remote-friendly"]].map(([icon, label]) => (
                   <div key={label} style={{ display:"flex", alignItems:"center", gap:8 }}>
                     <Icon name={icon} style={{ fontSize:16, color:"var(--lime)" }} />
                     <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:12, color:"var(--text3)", letterSpacing:".04em" }}>{label}</span>
@@ -322,10 +328,10 @@ export default function ContactPage({ navigate }) {
                 <StaggerContainer>
                   {[
                     { icon:"location_on", label:"Location",      val:"Dhaka, Bangladesh"           },
-                    { icon:"mail",        label:"Email",         val:"hello@qraftdigital.com"       },
-                    { icon:"schedule",    label:"Working Hours", val:"Mon – Fri · 9:00–18:00 BST"  },
+                    { icon:"mail",        label:"Email",         val:"write.shawon@gmail.com"       },
+                    { icon:"schedule",    label:"Working Hours", val:"Sun – Thu · 9:00–24:00 (GMT+6)"  },
                     { icon:"bolt",        label:"Response Time", val:"Within 12–24 hours"           },
-                    { icon:"language",    label:"We Serve",      val:"Clients in 20+ countries"     },
+                    { icon:"language",    label:"We Serve",      val:"Remote-friendly, worldwide"     },
                   ].map(({ icon, label, val }) => (
                     <StaggerItem key={label}>
                       <div style={{ display:"flex", gap:16, alignItems:"flex-start", marginBottom:22 }}>
@@ -683,10 +689,10 @@ export default function ContactPage({ navigate }) {
           </Reveal>
           <StaggerContainer style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:1, background:"transparent" }} className="stats-grid">
             {[
-              { num:"20+",  label:"Countries Served",        icon:"public"      },
-              { num:"140+", label:"Projects Delivered",      icon:"check_box"   },
-              { num:"$12M", label:"Client Revenue Generated", icon:"trending_up" },
-              { num:"4.9★", label:"Average Client Rating",   icon:"star"        },
+              { num:"Global", label:"Remote-First Delivery",  icon:"public"      },
+              { num:"Senior", label:"Engineers Only",         icon:"engineering" },
+              { num:"Fixed",  label:"Transparent Pricing",    icon:"task_alt"    },
+              { num:"Direct", label:"Access to Your Team",    icon:"groups"      },
             ].map(({ num, label, icon }) => (
               <StaggerItem key={label}>
                 <GlassCard style={{ padding:40, textAlign:"center", height:"100%" }}>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useReveal, useCountUp } from "../hooks";
+import { useReveal, useSEO } from "../hooks";
 import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, GhostBtn, Stars, Badge, TiltCard, GlassCard } from "../components/UI";
 
 const FEATURED = [
@@ -107,7 +107,7 @@ const TECH_STACK = [
     { name:"Express.js",   logo: SI("express")      },
   ]},
   { category:"DevOps", color:"rgba(251,146,60,0.10)", border:"rgba(251,146,60,0.22)", dot:"#fb923c", techs:[
-    { name:"AWS",          logo: SI("amazonwebservices") },
+    { name:"Cloudflare",   logo: SI("cloudflare")   },
     { name:"Docker",       logo: SI("docker")       },
     { name:"Vercel",       logo: SI("vercel")       },
     { name:"GitHub Actions",logo:SI("githubactions") },
@@ -116,8 +116,8 @@ const TECH_STACK = [
   ]},
   { category:"Design", color:"rgba(232,121,249,0.10)", border:"rgba(232,121,249,0.22)", dot:"#e879f9", techs:[
     { name:"Figma",        logo: SI("figma")        },
-    { name:"Photoshop",    logo: SI("adobephotoshop")   },
-    { name:"Illustrator",  logo: SI("adobeillustrator") },
+    { name:"n8n",          logo: SI("n8n")          },
+    { name:"Zapier",       logo: SI("zapier")       },
     { name:"Storybook",    logo: SI("storybook")    },
     { name:"Webflow",      logo: SI("webflow")      },
     { name:"Shopify",      logo: SI("shopify")      },
@@ -135,9 +135,12 @@ const HOW_WE_WORK = [
 
 export default function HomePage({ navigate }) {
   useReveal();
-  const statsRef = useRef(null);
+  useSEO({
+    title: "Websites, AI Automation & Maintenance in Dhaka",
+    description: "We design and build websites, automate your workflows with AI, and provide ongoing maintenance. Based in Dhaka, working with clients worldwide.",
+    path: "/",
+  });
   const tabsRef  = useRef(null);
-  const [statsVisible, setStatsVisible] = useState(false);
   const [faqOpen, setFaqOpen]           = useState(null);
   const [activeProject, setActiveProject] = useState(0);
   const [tabScroll, setTabScroll] = useState({ left:0, max:0, ratio:1 });
@@ -159,16 +162,6 @@ export default function HomePage({ navigate }) {
 
   const { scrollYProgress } = useScroll({ target: heroRef, offset:["start start","end start"] });
   const heroY = useTransform(scrollYProgress, [0,1], [0, 80]);
-
-  const c1 = useCountUp(140, 1400, statsVisible);
-  const c2 = useCountUp(98,  1200, statsVisible);
-  const c3 = useCountUp(12,  1000, statsVisible);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setStatsVisible(true); }, { threshold:.3 });
-    if (statsRef.current) obs.observe(statsRef.current);
-    return () => obs.disconnect();
-  }, []);
 
   useEffect(() => {
     const el = tabsRef.current;
@@ -213,7 +206,7 @@ export default function HomePage({ navigate }) {
                   style={{ display:"inline-flex", alignItems:"center", gap:12, marginBottom:24 }}
                 >
                   <div style={{ width:28, height:1, background:"var(--lime)" }} />
-                  <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:600, textTransform:"uppercase", letterSpacing:".16em", color:"var(--lime)" }}>Digital Agency · Dhaka</span>
+                  <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:600, textTransform:"uppercase", letterSpacing:".16em", color:"var(--lime)" }}>Websites, Automation & Maintenance · Dhaka, Bangladesh</span>
                 </motion.div>
 
                 {/* Mega headline — line-by-line clip reveal */}
@@ -253,7 +246,7 @@ export default function HomePage({ navigate }) {
                   transition={{ duration:.7, delay:.72, ease:[.2,.8,.2,1] }}
                   style={{ maxWidth:460, marginBottom:22, color:"var(--text2)", lineHeight:1.65, fontSize:"clamp(14px,1.2vw,15px)" }}
                 >
-                  High-performance engineering meets direct digital strategy. No fluff — just measurable results for leaders who demand more.
+                  We build your website, automate the busy work, and keep it running smoothly. No fluff — just results.
                 </motion.p>
 
                 <motion.div
@@ -271,7 +264,7 @@ export default function HomePage({ navigate }) {
                   transition={{ delay:1.05, duration:.8 }}
                   style={{ display:"flex", paddingTop:20, borderTop:"1px solid var(--border)" }}
                 >
-                  {[["7+","Years Active"],["140+","Projects"],["98%","Retention"],["24/7","Support"]].map(([n,l], i) => (
+                  {[["7+","Years Active"],["New","Projects"],["98%","Retention"],["24/7","Support"]].map(([n,l], i) => (
                     <div key={l} style={{ flex:1, paddingLeft:i===0?0:20, borderLeft:i===0?"none":"1px solid var(--border)" }}>
                       <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(18px,1.8vw,26px)", fontWeight:700, color:"var(--text)", letterSpacing:"-.03em", lineHeight:1 }}>{n}</div>
                       <div style={{ fontSize:9, color:"var(--text3)", fontFamily:"'Space Grotesk',sans-serif", textTransform:"uppercase", letterSpacing:".1em", marginTop:4 }}>{l}</div>
@@ -390,7 +383,7 @@ export default function HomePage({ navigate }) {
                   style={{ position:"absolute", bottom:-16, left:-16, zIndex:10, background:"var(--lime)", padding:"8px 14px", display:"flex", alignItems:"center", gap:6, boxShadow:"0 12px 30px rgba(204,255,0,0.25)" }}
                 >
                   <div style={{ width:6, height:6, borderRadius:"50%", background:"#000", flexShrink:0 }} />
-                  <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, fontSize:11, color:"#000", textTransform:"uppercase", letterSpacing:".08em" }}>140+ Projects Shipped</span>
+                  <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontWeight:700, fontSize:11, color:"#000", textTransform:"uppercase", letterSpacing:".08em" }}>New Projects Shipped</span>
                 </motion.div>
               </motion.div>
 
@@ -399,52 +392,6 @@ export default function HomePage({ navigate }) {
         </motion.div>
 
       </section>
-
-      {/* ═══════════════════ STATS BAR ═══════════════════ */}
-      <div ref={statsRef} style={{ position:"relative", isolation:"isolate", borderTop:"1px solid var(--border)", borderBottom:"1px solid var(--border)", overflow:"hidden" }}>
-
-        {/* Full-width lime top edge */}
-        <div style={{ position:"absolute", top:0, left:0, right:0, height:1, background:"linear-gradient(90deg, transparent 0%, var(--lime) 25%, rgba(136,255,170,0.7) 50%, var(--lime) 75%, transparent 100%)", zIndex:2 }} />
-
-        {/* Background */}
-        <div style={{ position:"absolute", inset:0, background:"linear-gradient(180deg, rgba(10,6,22,0.98) 0%, rgba(6,4,14,0.95) 100%)" }} />
-
-        <StaggerContainer className="stats-grid" style={{ maxWidth:1440, margin:"0 auto", padding:"0 clamp(20px,4vw,40px)", display:"grid", gridTemplateColumns:"repeat(4,1fr)", position:"relative", zIndex:1 }}>
-          {[
-            { num:c1,     suffix:"+",  label:"Projects Shipped", sub:"End-to-end delivered",         icon:"rocket_launch", color:"var(--lime)" },
-            { num:c2,     suffix:"%",  label:"Lighthouse Avg",   sub:"Across all production builds",  icon:"speed",         color:"#86efac"     },
-            { num:c3,     suffix:"ms", label:"Avg API Latency",  sub:"P95 server response time",      icon:"bolt",          color:"#93c5fd"     },
-            { num:"24/7", suffix:"",   label:"System Uptime",    sub:"Monitored infrastructure",      icon:"shield",        color:"var(--lime)" },
-          ].map(({ num, suffix, label, sub, icon, color }, i) => (
-            <StaggerItem key={label}>
-              <motion.div
-                whileHover={{ background:"rgba(255,255,255,0.025)" }}
-                transition={{ duration:.25 }}
-                className="stats-item"
-                style={{ padding:"clamp(32px,4vw,52px) clamp(20px,3vw,36px)", position:"relative", height:"100%" }}
-              >
-                {/* Per-column top accent */}
-                <div style={{ position:"absolute", top:0, left:0, right:0, height:2, background:`linear-gradient(90deg, ${color} 0%, transparent 65%)`, opacity:.75 }} />
-
-                {/* Icon */}
-                <Icon name={icon} style={{ fontSize:22, color, display:"block", marginBottom:20, opacity:.9 }} />
-
-                {/* Number + suffix */}
-                <div style={{ display:"flex", alignItems:"baseline", gap:6, marginBottom:12 }}>
-                  <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(40px,4vw,64px)", fontWeight:700, letterSpacing:"-.04em", lineHeight:1, color:"var(--text)" }}>{num}</span>
-                  {suffix && <span style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:"clamp(18px,1.8vw,26px)", fontWeight:700, letterSpacing:"-.02em", lineHeight:1, color }}>{suffix}</span>}
-                </div>
-
-                {/* Label */}
-                <div style={{ fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".12em", color:"var(--text)", marginBottom:8 }}>{label}</div>
-
-                {/* Context */}
-                <div style={{ fontSize:13, color:"var(--text3)", lineHeight:1.55 }}>{sub}</div>
-              </motion.div>
-            </StaggerItem>
-          ))}
-        </StaggerContainer>
-      </div>
 
       {/* ═══════════════════ SERVICES ═══════════════════ */}
       <section className="section-grad px-section" style={{ padding:"clamp(64px,10vw,120px) clamp(20px,4vw,40px)" }}>

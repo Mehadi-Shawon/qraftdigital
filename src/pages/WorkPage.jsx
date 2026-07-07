@@ -1,6 +1,7 @@
 ﻿import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, GhostBtn, Badge } from "../components/UI";
+import { useSEO } from "../hooks";
 
 const PROJECTS = [
   { num:"01", color:"#60a5fa", client:"Orbit",              title:"Real-Time SaaS Analytics Dashboard",    tag:"SaaS · Data",    filter:"SaaS",       result:"3× faster reporting",    desc:"Live data visualization for 50k+ concurrent users with Redis caching, PostgreSQL partitioning, and real-time WebSocket feeds.",                                                  stack:["Next.js","PostgreSQL","Redis"],       img:"https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&h=700&fit=crop",   wide:false },
@@ -24,22 +25,22 @@ const PROJECTS = [
 const FILTERS = ["All","Restaurant","Healthcare","Local ISP","Local Business","Beauty","Marketplace","Business","Institutional","Portfolio","Garments B2B","Real Estate","Brand","SaaS","Commerce"];
 
 export default function WorkPage({ navigate }) {
+  useSEO({
+    title: "Our Work",
+    description: "A showcase of websites, e-commerce platforms, and automation projects built by Qraft Digital for clients in Dhaka and worldwide.",
+    path: "/work",
+  });
   const [active, setActive] = useState("All");
-  const [filterScroll, setFilterScroll] = useState({ left:0, max:0, ratio:1 });
-  const filterRef = useRef(null);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const filterMenuRef = useRef(null);
   const filtered = active==="All" ? PROJECTS : PROJECTS.filter(p => p.filter===active);
 
   useEffect(() => {
-    const el = filterRef.current;
-    if (!el) return;
-    setFilterScroll({ left:0, max: el.scrollWidth - el.clientWidth, ratio: el.clientWidth / el.scrollWidth });
-  }, []);
-
-  const onFilterScroll = () => {
-    const el = filterRef.current;
-    if (!el) return;
-    setFilterScroll({ left: el.scrollLeft, max: el.scrollWidth - el.clientWidth, ratio: el.clientWidth / el.scrollWidth });
-  };
+    if (!filterOpen) return;
+    const onClick = (e) => { if (filterMenuRef.current && !filterMenuRef.current.contains(e.target)) setFilterOpen(false); };
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [filterOpen]);
 
   return (
     <div>
@@ -75,11 +76,10 @@ export default function WorkPage({ navigate }) {
 
       {/* â•â•â• FILTERS â•â•â• */}
       <div style={{ position:"relative" }}>
+        {/* Pill filters — desktop */}
         <div
-          ref={filterRef}
-          className="px-section filter-bar"
-          onScroll={onFilterScroll}
-          style={{ maxWidth:1440, margin:"0 auto", padding:"20px clamp(20px,4vw,40px)", display:"flex", gap:10, flexWrap:"nowrap", overflowX:"auto" }}
+          className="px-section filter-bar hide-mobile"
+          style={{ maxWidth:1440, margin:"0 auto", padding:"20px clamp(20px,4vw,40px)", display:"flex", gap:10, flexWrap:"wrap", justifyContent:"center" }}
         >
           {FILTERS.map(f => (
             <motion.button
@@ -94,21 +94,42 @@ export default function WorkPage({ navigate }) {
           ))}
         </div>
 
-        {/* Left fade */}
-        <div style={{ position:"absolute", top:0, left:0, bottom:0, width:48, background:"linear-gradient(to right, rgba(4,2,12,0.9), transparent)", pointerEvents:"none", opacity: filterScroll.left > 4 ? 1 : 0, transition:"opacity .2s", zIndex:2 }} />
-        {/* Right fade */}
-        <div style={{ position:"absolute", top:0, right:0, bottom:0, width:48, background:"linear-gradient(to left, rgba(4,2,12,0.9), transparent)", pointerEvents:"none", opacity: filterScroll.max - filterScroll.left > 4 ? 1 : 0, transition:"opacity .2s", zIndex:2 }} />
+        {/* Dropdown filter — mobile */}
+        <div className="show-mobile px-section" style={{ display:"none", maxWidth:1440, margin:"0 auto", padding:"16px clamp(20px,4vw,40px) 20px" }}>
+          <div ref={filterMenuRef} className="mobile-filter-bar" style={{ position:"relative", display:"flex", alignItems:"stretch", border:"1px solid var(--border)", background:"var(--surface)", width:"100%" }}>
+            <span style={{ display:"flex", alignItems:"center", gap:8, padding:"0 16px", borderRight:"1px solid var(--border)", fontFamily:"'Space Grotesk',sans-serif", fontSize:11, fontWeight:700, textTransform:"uppercase", letterSpacing:".1em", color:"var(--text3)", whiteSpace:"nowrap" }}>
+              <Icon name="tune" style={{ fontSize:16, color:"var(--lime)" }} />
+              Filter
+            </span>
+            <button
+              type="button"
+              onClick={() => setFilterOpen(o => !o)}
+              style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"space-between", padding:"14px 16px", background:"transparent", border:"none", fontFamily:"'Space Grotesk',sans-serif", fontSize:13, fontWeight:700, textTransform:"uppercase", letterSpacing:".06em", color:"var(--text)", cursor:"pointer" }}
+            >
+              {active}
+              <Icon name="expand_more" style={{ fontSize:18, color:"var(--lime)", transition:"transform .2s ease", transform: filterOpen ? "rotate(180deg)" : "none" }} />
+            </button>
 
-        {/* Thumb scrollbar */}
-        <div style={{ height:8, background:"rgba(255,255,255,0.06)", position:"relative", borderRadius:4 }}>
-          <motion.div
-            style={{ position:"absolute", top:2, bottom:2, background:"var(--lime)", borderRadius:3 }}
-            animate={{
-              width: `${Math.max(filterScroll.ratio * 100, 12)}%`,
-              left:  `${filterScroll.max > 0 ? (filterScroll.left / filterScroll.max) * (100 - Math.max(filterScroll.ratio * 100, 12)) : 0}%`,
-            }}
-            transition={{ duration:.12, ease:"easeOut" }}
-          />
+            <AnimatePresence>
+              {filterOpen && (
+                <motion.div
+                  initial={{ opacity:0, y:-6 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-6 }}
+                  transition={{ duration:.15, ease:[.2,.8,.2,1] }}
+                  style={{ position:"absolute", top:"100%", left:0, right:0, marginTop:6, background:"var(--surface2)", border:"1px solid var(--border)", zIndex:30, maxHeight:280, overflowY:"auto", boxShadow:"var(--card-shadow)" }}
+                >
+                  {FILTERS.map(f => (
+                    <div
+                      key={f}
+                      onClick={() => { setActive(f); setFilterOpen(false); }}
+                      style={{ padding:"12px 16px", fontFamily:"'Space Grotesk',sans-serif", fontSize:12, fontWeight:700, textTransform:"uppercase", letterSpacing:".06em", color: active===f ? "var(--lime)" : "var(--text2)", background: active===f ? "var(--lime-dim)" : "transparent", cursor:"pointer" }}
+                    >
+                      {f}
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
 

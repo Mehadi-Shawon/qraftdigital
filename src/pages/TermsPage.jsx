@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Reveal, SectionLabel } from "../components/UI";
+import { useSEO } from "../hooks";
 
 const Section = ({ title, children }) => (
   <Reveal>
@@ -27,6 +28,11 @@ const Li = ({ children }) => (
 );
 
 export default function TermsPage() {
+  useSEO({
+    title: "Terms of Service",
+    description: "Terms of Service for Qraft Digital's web design, AI automation, and maintenance services.",
+    path: "/terms",
+  });
   return (
     <div>
       {/* Hero */}
@@ -77,6 +83,7 @@ export default function TermsPage() {
             <Li>Late payments beyond 30 days may incur a 2% monthly interest charge</Li>
           </ul>
           <P>All prices are quoted in USD unless otherwise specified. We reserve the right to pause work on accounts with overdue balances.</P>
+          <P>For clients based in Bangladesh, applicable Value Added Tax (VAT) under the VAT and Supplementary Duty Act, 2012 will be added to invoices where required by law.</P>
         </Section>
 
         <Section title="4. Client Responsibilities">
@@ -108,6 +115,7 @@ export default function TermsPage() {
 
         <Section title="7. Confidentiality">
           <P>Both parties agree to keep confidential any proprietary information shared during the engagement. We take our clients' business information seriously and will not disclose it to third parties without explicit consent, except as required by law.</P>
+          <P>Unauthorized access to, damage of, or disclosure of confidential or protected data may also constitute an offence under the Cyber Security Act, 2023.</P>
           <P>Where a formal NDA is required, this must be established before project kickoff.</P>
         </Section>
 
@@ -130,15 +138,16 @@ export default function TermsPage() {
           </ul>
         </Section>
 
-        <Section title="11. Governing Law">
-          <P>These terms are governed by and construed in accordance with the laws of Bangladesh. Any disputes arising under these terms shall be subject to the exclusive jurisdiction of the courts of Dhaka, Bangladesh.</P>
+        <Section title="11. Governing Law & Dispute Resolution">
+          <P>These terms are governed by and construed in accordance with the laws of the People's Republic of Bangladesh, including the Contract Act, 1872, the Information and Communication Technology Act, 2006, and the Cyber Security Act, 2023.</P>
+          <P>Any dispute arising out of or in connection with these terms shall first be addressed through good-faith negotiation between the parties. If unresolved within 30 days, either party may refer the matter to arbitration under the Arbitration Act, 2001, or pursue resolution before the exclusive jurisdiction of the courts of Dhaka, Bangladesh.</P>
           <P>For international clients, both parties agree to attempt good-faith resolution before pursuing formal legal proceedings.</P>
         </Section>
 
         <Section title="12. Contact">
           <P>For any questions regarding these Terms of Service, please contact us:</P>
           <ul style={{ listStyle:"none" }}>
-            <Li>Email: <span style={{ color:"var(--lime)" }}>hello@qraftdigital.com</span></Li>
+            <Li>Email: <span style={{ color:"var(--lime)" }}>write.shawon@gmail.com</span></Li>
             <Li>Location: Dhaka, Bangladesh</Li>
             <Li>Response time: Within 24 business hours</Li>
           </ul>

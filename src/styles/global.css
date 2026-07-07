@@ -250,6 +250,11 @@ img { max-width: 100%; display: block; }
 }
 .glass-card:hover { border-color: var(--lime); transform: translateY(-4px); }
 
+/* Mobile filter bar */
+.mobile-filter-bar { transition: border-color .2s ease, box-shadow .2s ease; }
+.mobile-filter-bar:focus-within { border-color: var(--lime); box-shadow: 0 0 0 3px var(--lime-dim); }
+.mobile-filter-bar button:focus { outline: none; }
+
 /* ═══════════════════════════════════════════
    SECTION LABELS & TYPOGRAPHY
 ═══════════════════════════════════════════ */
@@ -516,10 +521,6 @@ img { max-width: 100%; display: block; }
 
   /* Work cards — reduce height on mobile */
   .work-card     { height: 300px !important; }
-
-  /* Filter bar — horizontal scroll */
-  .filter-bar    { overflow-x: auto !important; flex-wrap: nowrap !important; padding-bottom: 8px !important; scrollbar-width: none !important; }
-  .filter-bar::-webkit-scrollbar { display: none !important; }
 
   /* Featured tabs */
   .featured-tabs { overflow-x: auto !important; }

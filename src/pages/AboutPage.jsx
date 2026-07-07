@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useReveal } from "../hooks";
+import { useReveal, useSEO } from "../hooks";
 import founderImg from "../assets/Qraft Digitals Founder.jpg";
 import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, GhostBtn, TechPill, Stars, GlassCard } from "../components/UI";
 import ProjectModal from "../components/ProjectModal";
@@ -30,11 +30,16 @@ const VALUES = [
   { n:"04", icon:"diversity_3",       title:"Partnership", desc:"We don't build for you — we build with you. Your success is the only metric that matters." },
 ];
 
-const STACK = ["React","Next.js","TypeScript","Node.js","Python","PostgreSQL","Redis","Docker","AWS","Kubernetes","GraphQL","Tailwind CSS","Rust","Figma","Vercel"];
+const STACK = ["React","Next.js","WordPress","Node.js","PostgreSQL","OpenAI API","n8n","Zapier","WhatsApp API","Twilio","Vercel","Cloudflare"];
 
 export default function AboutPage({ navigate }) {
   const [modalOpen, setModalOpen] = useState(false);
   useReveal();
+  useSEO({
+    title: "About Us",
+    description: "Meet Qraft Digital — a Dhaka-based team building websites, AI automation, and long-term maintenance for clients worldwide.",
+    path: "/about",
+  });
 
   return (
     <>
@@ -58,7 +63,7 @@ export default function AboutPage({ navigate }) {
             <SectionLabel>Our Story</SectionLabel>
             <h1 className="h1" style={{ marginBottom:24, maxWidth:680 }}>Who<br />we are.</h1>
             <p className="body-lg" style={{ maxWidth:520, marginBottom:44 }}>
-              A high-performance digital laboratory engineering solutions for the modern web — from the heart of Dhaka to clients across the globe.
+              We design and build websites, automate your workflows with AI, and keep it all running — from the heart of Dhaka to clients across the globe.
             </p>
             <div style={{ display:"flex", gap:16, flexWrap:"wrap" }}>
               <LimeBtn onClick={() => navigate("contact")}>Work With Us <Icon name="arrow_forward" style={{ fontSize:17 }} /></LimeBtn>
@@ -75,9 +80,9 @@ export default function AboutPage({ navigate }) {
             <h2 className="h2" style={{ marginBottom:28 }}>We started to solve a fundamental problem.</h2>
             <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
               {[
-                "Qraft Digital was founded on the belief that technical excellence shouldn't be a premium accessory — it should be the baseline. In an industry cluttered with over-promising and underdelivering, we built a refuge for direct engineering and pure functional design.",
-                "Based in Dhaka but operating globally, we bridge the gap between regional talent and international standards. Our team builds high-availability systems and pixel-perfect interfaces that always prioritize user efficiency over decorative noise.",
-                "Today we serve partners from pre-seed startups to enterprise conglomerates. They all share one demand: software that works when the pressure is on.",
+                "Qraft Digital was founded on the belief that technical excellence shouldn't be a premium accessory — it should be the baseline. We started with a simple offer: build fast, well-crafted websites, automate the repetitive parts of running a business with AI, and stay on to keep everything running.",
+                "Based in Dhaka but operating globally, we bridge the gap between regional talent and international standards. Our team builds pixel-perfect websites, wires up AI chatbots and automation that save real hours, and provides the ongoing maintenance that keeps it all working.",
+                "Today we serve partners from small local businesses to growing regional brands. They all share one demand: a website and systems that work when the pressure is on.",
               ].map((p,i) => <p key={i} className="body-sm" style={{ fontSize:15, lineHeight:1.8 }}>{p}</p>)}
             </div>
             <div style={{ marginTop:36 }}>
@@ -210,9 +215,9 @@ export default function AboutPage({ navigate }) {
           </Reveal>
           <StaggerContainer className="testimonials-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:1, background:"transparent" }}>
             {[
-              { q:"The engineering precision Qraft Digital brought to our fintech platform was beyond anything we'd experienced. Pure mastery.",  name:"John Doe",    title:"CTO, FinStream"       },
-              { q:"They delivered a complex SaaS dashboard in record time with zero compromise on quality. A truly rare partner.",            name:"Jane Smith",  title:"Product Lead, Velocity"},
-              { q:"Working with Qraft Digital felt like having our own elite engineering team embedded. Direct, honest, and brutally effective.",name:"Arif Rahman", title:"CEO, Dhaka Tech"       },
+              { q:"Our new website and the WhatsApp booking bot they built cut our phone reservations in half. Customers just message now and get an instant reply.", name:"Rezaul Karim", title:"CEO, Bistro Dhaka"     },
+              { q:"They automated our order confirmations and stock alerts alongside the new site. It's like having an extra employee who never sleeps.",              name:"Nusrat Jahan", title:"Founder, ShopZone BD"  },
+              { q:"Working with Qraft Digital felt like having our own in-house team. They built the site, automated the busywork, and still show up fast when something needs fixing.", name:"Arif Rahman", title:"CEO, Dhaka Tech" },
             ].map(({ q, name, title }) => (
               <StaggerItem key={name}>
                 <div className="testimonial-card" style={{ height:"100%" }}>

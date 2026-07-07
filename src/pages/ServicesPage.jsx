@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useSEO } from "../hooks";
 import { Icon, SectionLabel, Reveal, StaggerContainer, StaggerItem, LimeBtn, GhostBtn, Badge, GlassCard } from "../components/UI";
 
 const SERVICES = [
@@ -27,6 +28,11 @@ const GUARANTEES = [
 ];
 
 export default function ServicesPage({ navigate }) {
+  useSEO({
+    title: "Services",
+    description: "Web design & development, AI chatbots & automation, and ongoing website maintenance — explore what Qraft Digital builds.",
+    path: "/services",
+  });
   return (
     <div>
       {/* ═══ HERO ═══ */}

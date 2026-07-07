@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Reveal, SectionLabel } from "../components/UI";
+import { useSEO } from "../hooks";
 
 const Section = ({ title, children }) => (
   <Reveal>
@@ -27,6 +28,11 @@ const Li = ({ children }) => (
 );
 
 export default function PrivacyPage() {
+  useSEO({
+    title: "Privacy Policy",
+    description: "How Qraft Digital collects, uses, and protects your personal data.",
+    path: "/privacy",
+  });
   return (
     <div>
       {/* Hero */}
@@ -52,7 +58,7 @@ export default function PrivacyPage() {
 
         <Section title="1. Who We Are">
           <P>Qraft Digital is a digital engineering agency based in Dhaka, Bangladesh, operating globally. We build websites, mobile applications, brand identities, and custom software for clients worldwide.</P>
-          <P>For any privacy-related enquiries, contact us at <span style={{ color:"var(--lime)" }}>hello@qraftdigital.com</span>.</P>
+          <P>For any privacy-related enquiries, contact us at <span style={{ color:"var(--lime)" }}>write.shawon@gmail.com</span>.</P>
         </Section>
 
         <Section title="2. Information We Collect">
@@ -79,13 +85,13 @@ export default function PrivacyPage() {
           <P>We will never sell, rent, or trade your personal information to third parties for their marketing purposes.</P>
         </Section>
 
-        <Section title="4. Legal Basis for Processing">
-          <P>We process your personal data on the following legal bases:</P>
+        <Section title="4. Legal Framework">
+          <P>Bangladesh does not yet have a single, comprehensive data protection statute. We process personal data in line with the Information and Communication Technology Act, 2006, the Cyber Security Act, 2023, applicable directives of the Bangladesh Telecommunication Regulatory Commission (BTRC), and the following general principles:</P>
           <ul style={{ listStyle:"none", marginBottom:14 }}>
             <Li><strong style={{ color:"var(--text)" }}>Contractual necessity</strong> — to fulfil a project or service agreement</Li>
             <Li><strong style={{ color:"var(--text)" }}>Legitimate interests</strong> — to respond to enquiries and improve our services</Li>
             <Li><strong style={{ color:"var(--text)" }}>Consent</strong> — for marketing communications, which you may withdraw at any time</Li>
-            <Li><strong style={{ color:"var(--text)" }}>Legal obligation</strong> — where required by applicable law</Li>
+            <Li><strong style={{ color:"var(--text)" }}>Legal obligation</strong> — where disclosure is required by a competent Bangladeshi court or authority</Li>
           </ul>
         </Section>
 
@@ -127,10 +133,11 @@ export default function PrivacyPage() {
             <Li>Regular review of data handling practices</Li>
           </ul>
           <P>While we take all reasonable precautions, no method of transmission over the internet is completely secure. We cannot guarantee absolute security.</P>
+          <P>In the event of a data breach affecting your personal information, we will take necessary remedial action and, where required, notify affected users and relevant authorities in accordance with the Cyber Security Act, 2023.</P>
         </Section>
 
         <Section title="9. Your Rights">
-          <P>Depending on your location, you may have the following rights regarding your personal data:</P>
+          <P>While Bangladeshi law does not currently mandate the full set of data-subject rights found in other jurisdictions, we voluntarily extend the following rights to our clients and users as a matter of good practice:</P>
           <ul style={{ listStyle:"none", marginBottom:14 }}>
             <Li><strong style={{ color:"var(--text)" }}>Access</strong> — request a copy of the data we hold about you</Li>
             <Li><strong style={{ color:"var(--text)" }}>Rectification</strong> — request correction of inaccurate or incomplete data</Li>
@@ -139,15 +146,15 @@ export default function PrivacyPage() {
             <Li><strong style={{ color:"var(--text)" }}>Objection</strong> — object to processing based on legitimate interests</Li>
             <Li><strong style={{ color:"var(--text)" }}>Withdraw consent</strong> — for any processing based on your prior consent</Li>
           </ul>
-          <P>To exercise any of these rights, email us at <span style={{ color:"var(--lime)" }}>hello@qraftdigital.com</span>. We will respond within 30 days.</P>
+          <P>To exercise any of these rights, email us at <span style={{ color:"var(--lime)" }}>write.shawon@gmail.com</span>. We will respond within 30 days.</P>
         </Section>
 
         <Section title="10. International Data Transfers">
-          <P>As a globally operating agency, your data may be processed in countries outside your own. When transferring data internationally, we ensure appropriate safeguards are in place, including standard contractual clauses where required.</P>
+          <P>As we operate globally, your data may be processed or stored on servers located outside Bangladesh, including through third-party hosting and cloud providers. Where this occurs, we take reasonable steps to ensure a comparable standard of protection, consistent with the safeguards expected under the Information and Communication Technology Act, 2006 and the Cyber Security Act, 2023.</P>
         </Section>
 
         <Section title="11. Children's Privacy">
-          <P>Our services are not directed at individuals under the age of 16. We do not knowingly collect personal data from children. If you believe we have inadvertently collected such data, please contact us immediately so we can delete it.</P>
+          <P>Our services are not directed at individuals under the age of 18, the age of majority under the Majority Act, 1875. We do not knowingly collect personal data from minors without verified parental or guardian consent. If you believe we have inadvertently collected such data, please contact us immediately so we can delete it.</P>
         </Section>
 
         <Section title="12. Changes to This Policy">
@@ -158,7 +165,7 @@ export default function PrivacyPage() {
         <Section title="13. Contact Us">
           <P>For any questions, requests, or concerns about this Privacy Policy or your personal data:</P>
           <ul style={{ listStyle:"none" }}>
-            <Li>Email: <span style={{ color:"var(--lime)" }}>hello@qraftdigital.com</span></Li>
+            <Li>Email: <span style={{ color:"var(--lime)" }}>write.shawon@gmail.com</span></Li>
             <Li>Location: Dhaka, Bangladesh</Li>
             <Li>Response time: Within 24 business hours</Li>
           </ul>

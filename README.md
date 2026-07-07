@@ -15,7 +15,8 @@ The official website for **Qraft Digital**, a premier digital engineering agency
 | Icons | [Google Material Symbols](https://fonts.google.com/icons) |
 | Fonts | Space Grotesk · Work Sans (Google Fonts) |
 | Forms | [Formspree](https://formspree.io/) |
-| Routing | Custom SPA router (no external dependency) |
+| Routing | [React Router 6](https://reactrouter.com/) |
+| SEO | Per-page title/description/canonical/Open Graph via `useSEO` hook, `sitemap.xml`, `robots.txt`, JSON-LD |
 
 ---
 
@@ -23,13 +24,14 @@ The official website for **Qraft Digital**, a premier digital engineering agency
 
 | Route | Description |
 |---|---|
-| `home` | Hero, services overview, featured work, testimonials |
-| `services` | Full services breakdown |
-| `work` | Project portfolio with category filters |
-| `about` | Team, founder profile, agency story |
-| `contact` | Multi-step enquiry form + meeting booking |
-| `terms` | Terms of Service |
-| `privacy` | Privacy Policy |
+| `/` | Hero, services overview, featured work, testimonials |
+| `/services` | Full services breakdown |
+| `/work` | Project portfolio with category filters |
+| `/about` | Team, founder profile, agency story |
+| `/contact` | Multi-step enquiry form + meeting booking |
+| `/terms` | Terms of Service |
+| `/privacy` | Privacy Policy |
+| `*` | 404 Not Found (noindex) |
 
 ---
 
@@ -146,16 +148,16 @@ src/pages/ContactPage.jsx        → const FORMSPREE_ID = "YOUR_FORM_ID"
 
 ## Deployment
 
-The site is a fully static SPA and can be deployed to any static hosting provider.
+The site is a static SPA using real client-side routes (React Router), so the host must rewrite all paths to `index.html` — otherwise a direct visit or refresh on `/work`, `/about`, etc. 404s.
 
-**Recommended: Vercel**
+**Recommended: Vercel** — `vercel.json` already includes the rewrite rule.
 
 ```bash
 npm i -g vercel
 vercel --prod
 ```
 
-**Netlify** — drag and drop the `dist/` folder after running `npm run build`.
+**Netlify** — `public/_redirects` already includes the SPA fallback rule. Drag and drop the `dist/` folder after running `npm run build`.
 
 ---
 
